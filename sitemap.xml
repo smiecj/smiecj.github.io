@@ -74,6 +74,20 @@
   </url>
   
   <url>
+    <loc>http://smiecj.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2022-01-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://smiecj.github.io/tags/hexo/</loc>
+    <lastmod>2022-01-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://smiecj.github.io/tags/mac/</loc>
     <lastmod>2022-01-11</lastmod>
     <changefreq>daily</changefreq>
@@ -89,20 +103,6 @@
   
   <url>
     <loc>http://smiecj.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
-    <lastmod>2022-01-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://smiecj.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2022-01-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://smiecj.github.io/tags/hexo/</loc>
     <lastmod>2022-01-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -132,14 +132,14 @@
   </url>
   
   <url>
-    <loc>http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/hexo/</loc>
+    <loc>http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/docker/</loc>
     <lastmod>2022-01-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/docker/</loc>
+    <loc>http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/hexo/</loc>
     <lastmod>2022-01-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
