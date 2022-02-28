@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hexo 博客搭建教程 | Smiecj的小窝</title><meta name="keywords" content="个人博客,hexo"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从0开始搭建个人博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 博客搭建教程">
+<meta property="og:url" content="http://smiecj.github.io/2021/08/13/hexo-blog/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="从0开始搭建个人博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smiecj.github.io/img/blog_img/hexo.png">
+<meta property="article:published_time" content="2021-08-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-12T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="个人博客">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smiecj.github.io/img/blog_img/hexo.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2021/08/13/hexo-blog/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo 博客搭建教程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-13 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/blog_img/hexo.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Hexo 博客搭建教程<a class="post-edit-link" href="null_posts/hexo-blog.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-12T16:00:00.000Z" title="发表于 2021-08-13 00:00:00">2021-08-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-12T16:00:00.000Z" title="更新于 2021-08-13 00:00:00">2021-08-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/hexo/">hexo</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Hexo 博客搭建教程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><a href="https://smiecj.github.io/">博客首页</a><br><img src="/2021/08/13/hexo-blog/hexo_blog_01.png" alt="blog front page"></p>
+<p><img src="/2021/08/13/hexo-blog/hexo_blog_12.png" alt="blog front page"></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前自己的博客都是放在csdn上，分类管理起来不是很方便，而且分类在左下角，不是特别显眼的地方<br><img src="/2021/08/13/hexo-blog/hexo_blog_03.png" alt="csdn page"></p>
+<p>公众号的标签功能还可以，不过自己还是希望有个个人站点能专门管理写过的博客，主题最好是能一目了然，不仅仅是别人看着方便，以后自己整理资料的时候找得也方便</p>
+<p>既然有这个需求，那就试试呗，看看个人站点怎么搭建，据说不难的</p>
+<h2 id="踩坑记-hugo工具短暂的体验"><a href="#踩坑记-hugo工具短暂的体验" class="headerlink" title="踩坑记 - hugo工具短暂的体验"></a>踩坑记 - hugo工具短暂的体验</h2><p>hugo 是一个用golang 写的博客搭建工具，主要功能是可一键生成博客，我们自己只需要写markdown 格式的文章就行了，前端静态文件都是通过hugo 进行渲染生成的。方便是方便，但是一直没有找到特别满意的主题。<br>其实自己对主题的要求也没有说特别高，主要是要简洁、重点明了就好了，那种特别花哨、或者是基本功能欠缺的主题都是不考虑的<br>所以最后放弃了hugo。一次偶然的机会，和一个前端同学聊，知道了有hexo 这样一个工具，同样是生成博客的，那就试试呗</p>
+<p><a target="_blank" rel="noopener" href="https://jeshs.github.io/2019/01/hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E4%B8%80%E6%90%AD%E5%BB%BAhugo%E5%8D%9A%E5%AE%A2/">参考-hugo搭建教程</a></p>
+<blockquote>
+<p>hugo基本指令:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">创建一篇博客:</span><br><span class="line">hugo new site myblog</span><br><span class="line">启动服务:</span><br><span class="line">hugo server -D --bind=&quot;0.0.0.0&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="hexo-主题介绍"><a href="#hexo-主题介绍" class="headerlink" title="hexo 主题介绍"></a>hexo 主题介绍</h2><p>hexo 和 hugo 最大的优势我觉得就是主题库了，这里介绍几个个人感觉还不错的：</p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>风格</th>
+<th>demo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/yscoder/hexo-theme-indigo">Indigo</a></td>
+<td>蓝色主题、简洁</td>
+<td><a target="_blank" rel="noopener" href="https://wuyang910217.github.io/">wuyang的个人博客</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">butterfly</a></td>
+<td>首页展示大幅背景图，表现力强</td>
+<td><a target="_blank" rel="noopener" href="https://yunist.cn/">云玩家</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody">melody</a></td>
+<td>白色主题、简洁</td>
+<td><a target="_blank" rel="noopener" href="https://molunerfinn.com/">MARKSZのBlog</a></td>
+</tr>
+</tbody></table>
+<p>其实自己也是后面看了这些主题的样式，才发现原来好多大神的个人站点都是通过 hexo 搭建的，有些前端技术比较厉害的，还会尝试自己去魔改，希望自己也有一天可以尝试一下</p>
+<h2 id="本地搭建方式"><a href="#本地搭建方式" class="headerlink" title="本地搭建方式"></a>本地搭建方式</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo">hexo</a> 是 node 开发的框架，所以需要通过 npm 来安装</p>
+<blockquote>
+<p>安装hexo 框架</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>创建博客工程</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>工程结构简述</p>
+</blockquote>
+<p><img src="/2021/08/13/hexo-blog/hexo_blog_04.png" alt="hexo structure"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml: 主配置文件，后续修改主题之类的就是改这里</span><br><span class="line">themes: 主题目录</span><br><span class="line">scaffolds: 博客模板，通过 hexo new page 生成的页面都以这里的md 文件为模板</span><br><span class="line">source: 存放用户资源</span><br><span class="line">package.json: 本质上 hexo 博客还是一个前端项目，所以在这里管理依赖</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置主题"><a href="#设置主题" class="headerlink" title="设置主题"></a>设置主题</h3><p>这一步主要是在 <strong>themes</strong> 目录下，存放主题代码目录，这样 hexo 启动博客主页的时候，就是以你放的主题来生成了<br>有两种下载主题的方式：你可以直接将主题git 代码下载下来，放到themes 目录，或者是fork 一份主题仓库，通过 git submodule clone 一份代码。如果有兴趣自己做主题魔改，更建议后者</p>
+<p>通过 git submodule 下载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add git@github.com:主题仓库.git themes/主题名称</span><br></pre></td></tr></table></figure>
+
+<p>下载完成之后，将_config.yml 中的主题名称修改一下<br><img src="/2021/08/13/hexo-blog/hexo_blog_05.png" alt="hexo structure"></p>
+<p>安装渲染工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br><span class="line">npm install --save hexo-renderer-pug hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync hexo-generator-archive hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动博客"><a href="#启动博客" class="headerlink" title="启动博客"></a>启动博客</h3><blockquote>
+<p>清理静态文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>生成静态文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动服务</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo server -w -p 3000</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line"># -w: watch，监听文件变化</span><br><span class="line"># -p: port，启动端口</span><br></pre></td></tr></table></figure>
+
+<p>到这一步完成，博客基本框架就算搭建成功了~</p>
+<h2 id="基本配置的介绍"><a href="#基本配置的介绍" class="headerlink" title="基本配置的介绍"></a>基本配置的介绍</h2><p>这里我们对一些博客配置做简单的了解，方便后续进行主题设置。当然博客部署完成之后，也可以直接部署到github 上，先不管这些配置。你也可以直接跳到下一节内容进行参考。<br>如果想了解大部分的配置，建议参考下面的官方教程<br><a target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe">参考-官方教程</a></p>
+<h3 id="网站信息"><a href="#网站信息" class="headerlink" title="网站信息"></a>网站信息</h3><p>站点基本配置</p>
+<p><img src="/2021/08/13/hexo-blog/hexo_blog_06.png" alt="blog config"></p>
+<p>头像和首页背景图</p>
+<p><img src="/2021/08/13/hexo-blog/hexo_blog_07.png" alt="head config"></p>
+<h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><p>文章封面: 设置cover属性<br><img src="/2021/08/13/hexo-blog/hexo_blog_08.png" alt="blog top img config"></p>
+<p>效果:<br><img src="/2021/08/13/hexo-blog/hexo_blog_09.png" alt="blog top img show"></p>
+<h3 id="顶部栏"><a href="#顶部栏" class="headerlink" title="顶部栏"></a>顶部栏</h3><p><img src="/2021/08/13/hexo-blog/hexo_blog_10.png" alt="blog top config"></p>
+<p>其中，标签、分类页面可通过下面的指令新建:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<h2 id="部署到github站点"><a href="#部署到github站点" class="headerlink" title="部署到github站点"></a>部署到github站点</h2><h3 id="github-创建仓库"><a href="#github-创建仓库" class="headerlink" title="github 创建仓库"></a>github 创建仓库</h3><p>github 能够识别 用户名.github.io 的仓库名，并部署这个仓库的静态文件生成站点，站点地址就是 用户名.github.io<br><img src="/2021/08/13/hexo-blog/hexo_blog_11.png" alt="blog deploy config"></p>
+<h3 id="配置准备"><a href="#配置准备" class="headerlink" title="配置准备"></a>配置准备</h3><p>修改博客根目录的 config.yml 文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt; #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>这样先执行 <strong>hexo g</strong> 生成静态文件之后，再执行 <strong>hexo d</strong> 就可以将静态文件 提交到站点仓库上了<br>如果是在本地开发，建议 repo 配置成 ssh 的地址，部署更方便</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>天下无难事 – 其实很早就看到过，这次尝试自己搭建，其实不麻烦<br>当然，要真正做成一个内容丰富的个人博客站点，还是要慢慢积累丰富的内容才行。有的大神就纯做技术博客（比如<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">廖雪峰</a>），有的大神则搞一些炫酷的效果（如<a target="_blank" rel="noopener" href="https://www.yunyoujun.cn/about/">云游君的小站</a>），最后都能做得很有知名度。当然，最重要的还是要有核心的技术，博客积累关键还是在于个人的技术积累。<br>所以，慢慢来吧，共勉</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2021/08/13/hexo-blog/">http://smiecj.github.io/2021/08/13/hexo-blog/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a><a class="post-meta__tags" href="/tags/hexo/">hexo</a></div><div class="post_share"><div class="social-share" data-image="/img/blog_img/hexo.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/20/nebula-gateway-sigpipe/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/18/golang-mistakes/"><img class="next-cover" src="/img/blog_img/golang-1200x675.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Golang 常见的10种错误</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>关注我</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">学习中</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-number">1.</span> <span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E8%AE%B0-hugo%E5%B7%A5%E5%85%B7%E7%9F%AD%E6%9A%82%E7%9A%84%E4%BD%93%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">踩坑记 - hugo工具短暂的体验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E4%B8%BB%E9%A2%98%E4%BB%8B%E7%BB%8D"><span class="toc-number">4.</span> <span class="toc-text">hexo 主题介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">本地搭建方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">5.1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BB%E9%A2%98"><span class="toc-number">5.2.</span> <span class="toc-text">设置主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%8D%9A%E5%AE%A2"><span class="toc-number">5.3.</span> <span class="toc-text">启动博客</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">6.</span> <span class="toc-text">基本配置的介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E4%BF%A1%E6%81%AF"><span class="toc-number">6.1.</span> <span class="toc-text">网站信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0"><span class="toc-number">6.2.</span> <span class="toc-text">文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B6%E9%83%A8%E6%A0%8F"><span class="toc-number">6.3.</span> <span class="toc-text">顶部栏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0github%E7%AB%99%E7%82%B9"><span class="toc-number">7.</span> <span class="toc-text">部署到github站点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#github-%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="toc-number">7.1.</span> <span class="toc-text">github 创建仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%87%86%E5%A4%87"><span class="toc-number">7.2.</span> <span class="toc-text">配置准备</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/28/life-202202/" title="2月份随便记记"><img src="/2022/02/28/life-202202/01.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2月份随便记记"/></a><div class="content"><a class="title" href="/2022/02/28/life-202202/" title="2月份随便记记">2月份随便记记</a><time datetime="2022-02-27T16:00:00.000Z" title="发表于 2022-02-28 00:00:00">2022-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/mac-init-software/" title="Mac 预装软件整理"><img src="http://up.iosdesk.com/pic/80/c4/80/80c48029bdf373fa0d75dd00b5afe76e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mac 预装软件整理"/></a><div class="content"><a class="title" href="/2022/01/10/mac-init-software/" title="Mac 预装软件整理">Mac 预装软件整理</a><time datetime="2022-01-09T16:00:00.000Z" title="发表于 2022-01-10 00:00:00">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/19/dockerfile-centos-dev/" title="通过 DockerFile 搭建开发镜像"><img src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 DockerFile 搭建开发镜像"/></a><div class="content"><a class="title" href="/2021/12/19/dockerfile-centos-dev/" title="通过 DockerFile 搭建开发镜像">通过 DockerFile 搭建开发镜像</a><time datetime="2021-12-18T16:00:00.000Z" title="发表于 2021-12-19 00:00:00">2021-12-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/20/nebula-gateway-sigpipe/" title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"/></a><div class="content"><a class="title" href="/2021/11/20/nebula-gateway-sigpipe/" title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决</a><time datetime="2021-11-19T16:00:00.000Z" title="发表于 2021-11-20 00:00:00">2021-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/13/hexo-blog/" title="Hexo 博客搭建教程"><img src="/img/blog_img/hexo.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo 博客搭建教程"/></a><div class="content"><a class="title" href="/2021/08/13/hexo-blog/" title="Hexo 博客搭建教程">Hexo 博客搭建教程</a><time datetime="2021-08-12T16:00:00.000Z" title="发表于 2021-08-13 00:00:00">2021-08-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: 'd193a570ef84086467e1ef7b8c7774c3',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
