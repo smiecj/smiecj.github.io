@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决 | Smiecj的小窝</title><meta name="keywords" content="nebula,大数据"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一个开发过程遇到的小bug的解决">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决">
+<meta property="og:url" content="http://smiecj.github.io/2021/11/20/nebula-gateway-sigpipe/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="一个开发过程遇到的小bug的解决">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg">
+<meta property="article:published_time" content="2021-11-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-19T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="nebula">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2021/11/20/nebula-gateway-sigpipe/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-20 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决<a class="post-edit-link" href="null_posts/nebula-gateway-sigpipe.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-19T16:00:00.000Z" title="发表于 2021-11-20 00:00:00">2021-11-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-19T16:00:00.000Z" title="更新于 2021-11-20 00:00:00">2021-11-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">问题解决</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="http://senlinzhan.github.io/2017/03/02/sigpipe/">网络编程中的 SIGPIPE 信号</a></p>
+<p><a target="_blank" rel="noopener" href="https://coderatwork.cn/posts/sigpipe-tragedy/">SIGPIPE 引发的悲剧</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lit10050528/p/5116566.html">SIGPIPE信号详解</a></p>
+<h2 id="问题概述"><a href="#问题概述" class="headerlink" title="问题概述"></a>问题概述</h2><p>在 Ambari 中集成了 nebula studio 1.0 版本，启动的组件包括：</p>
+<ul>
+<li>Studio: 通过 node 启动的 前端服务</li>
+<li>Importer: 数据导入工具，可以将本地的CSV 文件导入到 graph</li>
+<li>Gateway: 连接 studio 和 graph 服务的网关服务</li>
+</ul>
+<p>然后gateway组件的启动脚本是这样的：<br><strong>nohup ./nebula-http-gateway &gt;&gt; /var/log/nebula/gateway.log &amp;</strong></p>
+<p>启动过程集成到了 ambari 中，然后通过界面启动gateway 服务，一开始服务正常启动没问题，但是在 studio 上进行一些图搜索操作之后，就会自动退出，而且服务日志中没有任何报错信息</p>
+<p>但是直接在命令行执行的时候，就不会有任何问题，一开始百思不得其解</p>
+<h2 id="相关基础知识"><a href="#相关基础知识" class="headerlink" title="相关基础知识"></a>相关基础知识</h2><h3 id="操作系统-stdout、stderr"><a href="#操作系统-stdout、stderr" class="headerlink" title="操作系统: stdout、stderr"></a>操作系统: stdout、stderr</h3><p>标准输出和错误输出</p>
+<p>在命令行通过 nohup 打印，默认输出位置:<br>stdout: nohup.out<br>stderr: 直接忽略</p>
+<h3 id="nebula-gateway-查询图数据逻辑"><a href="#nebula-gateway-查询图数据逻辑" class="headerlink" title="nebula gateway: 查询图数据逻辑"></a>nebula gateway: 查询图数据逻辑</h3><p>这里我们看 执行 nebula查询语句的关键方法: Execute<br>（gateway 版本：1.0）</p>
+<blockquote>
+<p>service/dao/dao.go</p>
+</blockquote>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula01.png" alt="code"></p>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula02.png" alt="code"></p>
+<p>Request 发给了一个 channel，然后 等待 response channel 接收到回复，最后处理 response ，返回成功 或者是打印 错误信息</p>
+<h3 id="golang-打印日志的目标"><a href="#golang-打印日志的目标" class="headerlink" title="golang 打印日志的目标"></a>golang 打印日志的目标</h3><h4 id="println-stderr"><a href="#println-stderr" class="headerlink" title="println: stderr"></a>println: stderr</h4><p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula03.png" alt="code"></p>
+<h4 id="fmt-Println-stdout"><a href="#fmt-Println-stdout" class="headerlink" title="fmt.Println: stdout"></a>fmt.Println: stdout</h4><p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula04.png" alt="code"></p>
+<h4 id="log-Printf-log-Println-stderr"><a href="#log-Printf-log-Println-stderr" class="headerlink" title="log.Printf / log.Println: stderr"></a>log.Printf / log.Println: stderr</h4><p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula05.png" alt="code"></p>
+<blockquote>
+<p>func (l *Logger) Output(calldepth int, s string) error {</p>
+</blockquote>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula06.png" alt="code"></p>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula07.png" alt="code"></p>
+<h3 id="SIGPIPE"><a href="#SIGPIPE" class="headerlink" title="SIGPIPE"></a>SIGPIPE</h3><p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/signal.7.html">linux-signal</a></p>
+<p>SIGPIPE 和 强制终止 kill -9 类似，都是一种发送程序终止的信号。它表示向一个已经终止的socket 通道中写数据</p>
+<p>这种情况也是比较常见的，因为可能因为网络的不稳定，服务端向客户端成功发送 FIN 之后，一直没有收到客户端回复的RSP，客户端如果又自行退出，就会导致服务端再次向客户端发送请求时，收到一个 SIGPIPE 信号<br>对于C 程序，默认情况下是不会忽略这个信号的，收到这个信号就会直接退出。可通过执行 <strong>signal(SIGPIPE, SIG_IGN);</strong> 方法忽略之</p>
+<h2 id="定位过程"><a href="#定位过程" class="headerlink" title="定位过程"></a>定位过程</h2><h3 id="打印进程详细日志"><a href="#打印进程详细日志" class="headerlink" title="打印进程详细日志"></a>打印进程详细日志</h3><p>strace：可打印进程的内核操作详细信息的工具<br>strace -p pid: 打印指定进程的详细信息</p>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula08.png" alt="strace"></p>
+<p>这里很明显进程退出的原因 就是接收到了 SIGPIPE 信号</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>结合前面的基本知识，可大致判断就是 <strong>Ambari 通过一个sub process 执行 gateway 的启动脚本，在执行完成之后，子进程退出了，但是 gateway 依然往子进程的标准输出中打印日志（写日志也是socket操作），就会导致 gateway 接收到 SIGPIPE 信号，并最后退出</strong></p>
+<p>为了最终确定，我们再看一下 ambari 的Execute 方法实现，可看到它会把错误输出定位到标准输出，标准输出默认是和 进程 强绑定的，进程退出了，就无法再打印日志了</p>
+<blockquote>
+<p>ambari-common/src/main/python/resource_management/core/resources/system.py</p>
+</blockquote>
+<p>class Execute(Resource):</p>
+<p>而 gateway 通过 log.Printf 打印 response 的错误信息，会将日志打印到stderr，印证了这个退出的原因</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>修改gateway 启动脚本，将 stdout 和 stderr 都重定向到日志文件即可</p>
+<p>nohup ./nebula-http-gateway <strong>&gt; /var/log/nebula/gateway.log 2&gt;&amp;1</strong> &amp;</p>
+<p>再次操作 nebula studio，看到 gateway 打印的日志能正常在 nohup.out 中打印了</p>
+<p><img src="/2021/11/20/nebula-gateway-sigpipe/nebula10.png" alt="log"></p>
+<h2 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h2><p>虽然最后解决 也就是一行代码的事情，但是发现这个问题根因的过程还是挺有意思的</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2021/11/20/nebula-gateway-sigpipe/">http://smiecj.github.io/2021/11/20/nebula-gateway-sigpipe/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/nebula/">nebula</a><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/19/dockerfile-centos-dev/"><img class="prev-cover" src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">通过 DockerFile 搭建开发镜像</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/13/hexo-blog/"><img class="next-cover" src="/img/blog_img/hexo.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hexo 博客搭建教程</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>关注我</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">学习中</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.</span> <span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">问题概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">3.</span> <span class="toc-text">相关基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-stdout%E3%80%81stderr"><span class="toc-number">3.1.</span> <span class="toc-text">操作系统: stdout、stderr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nebula-gateway-%E6%9F%A5%E8%AF%A2%E5%9B%BE%E6%95%B0%E6%8D%AE%E9%80%BB%E8%BE%91"><span class="toc-number">3.2.</span> <span class="toc-text">nebula gateway: 查询图数据逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#golang-%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="toc-number">3.3.</span> <span class="toc-text">golang 打印日志的目标</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#println-stderr"><span class="toc-number">3.3.1.</span> <span class="toc-text">println: stderr</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fmt-Println-stdout"><span class="toc-number">3.3.2.</span> <span class="toc-text">fmt.Println: stdout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#log-Printf-log-Println-stderr"><span class="toc-number">3.3.3.</span> <span class="toc-text">log.Printf &#x2F; log.Println: stderr</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SIGPIPE"><span class="toc-number">3.4.</span> <span class="toc-text">SIGPIPE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">定位过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E8%BF%9B%E7%A8%8B%E8%AF%A6%E7%BB%86%E6%97%A5%E5%BF%97"><span class="toc-number">4.1.</span> <span class="toc-text">打印进程详细日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="toc-number">4.2.</span> <span class="toc-text">原因分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">5.</span> <span class="toc-text">问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">小总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈"><img src="https://code.visualstudio.com/assets/docs/languages/javascript/overview.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vscode 使用技巧闲谈"/></a><div class="content"><a class="title" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈">vscode 使用技巧闲谈</a><time datetime="2022-05-30T16:00:00.000Z" title="发表于 2022-05-31 00:00:00">2022-05-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群"><img src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 Docker Compose 本地启动 zk 集群"/></a><div class="content"><a class="title" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群">通过 Docker Compose 本地启动 zk 集群</a><time datetime="2022-05-17T16:00:00.000Z" title="发表于 2022-05-18 00:00:00">2022-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透"><img src="/2022/03/12/rasp-ssd-frp/rasp01.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派通过 SSD 部署 和 配置内网穿透"/></a><div class="content"><a class="title" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透">树莓派通过 SSD 部署 和 配置内网穿透</a><time datetime="2022-03-11T16:00:00.000Z" title="发表于 2022-03-12 00:00:00">2022-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/28/life-202202/" title="2月份随便记记"><img src="/2022/02/28/life-202202/01.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2月份随便记记"/></a><div class="content"><a class="title" href="/2022/02/28/life-202202/" title="2月份随便记记">2月份随便记记</a><time datetime="2022-02-27T16:00:00.000Z" title="发表于 2022-02-28 00:00:00">2022-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/mac-init-software/" title="Mac 预装软件整理"><img src="http://up.iosdesk.com/pic/80/c4/80/80c48029bdf373fa0d75dd00b5afe76e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mac 预装软件整理"/></a><div class="content"><a class="title" href="/2022/01/10/mac-init-software/" title="Mac 预装软件整理">Mac 预装软件整理</a><time datetime="2022-01-09T16:00:00.000Z" title="发表于 2022-01-10 00:00:00">2022-01-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: 'fedecd35e3c8ae94318d340d25b807bd',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
