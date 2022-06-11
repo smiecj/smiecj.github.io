@@ -35,11 +35,11 @@
     <category term="代理" scheme="http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/%E4%BB%A3%E7%90%86/"/>
     
     
+    <category term="docker" scheme="http://smiecj.github.io/tags/docker/"/>
+    
     <category term="开发工具" scheme="http://smiecj.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     <category term="代理" scheme="http://smiecj.github.io/tags/%E4%BB%A3%E7%90%86/"/>
-    
-    <category term="docker" scheme="http://smiecj.github.io/tags/docker/"/>
     
   </entry>
   
@@ -185,9 +185,9 @@
     <category term="docker" scheme="http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/docker/"/>
     
     
-    <category term="开发工具" scheme="http://smiecj.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
     <category term="docker" scheme="http://smiecj.github.io/tags/docker/"/>
+    
+    <category term="开发工具" scheme="http://smiecj.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
