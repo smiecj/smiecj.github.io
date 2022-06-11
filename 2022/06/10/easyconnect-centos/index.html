@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EasyConnect 代理工具容器化运行 | Smiecj的小窝</title><meta name="keywords" content="开发工具,代理,docker"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络隔离是更安全的选择">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EasyConnect 代理工具容器化运行">
+<meta property="og:url" content="http://smiecj.github.io/2022/06/10/easyconnect-centos/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="网络隔离是更安全的选择">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE">
+<meta property="article:published_time" content="2022-06-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-09T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="开发工具">
+<meta property="article:tag" content="代理">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2022/06/10/easyconnect-centos/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'EasyConnect 代理工具容器化运行',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-10 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">EasyConnect 代理工具容器化运行<a class="post-edit-link" href="null_posts/easyconnect-centos.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-09T16:00:00.000Z" title="发表于 2022-06-10 00:00:00">2022-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-09T16:00:00.000Z" title="更新于 2022-06-10 00:00:00">2022-06-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/%E4%BB%A3%E7%90%86/">代理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="EasyConnect 代理工具容器化运行"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/r1pOM7CoSMx4-L2GVqNoxg">公众号</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/125231965">csdn</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><strong>EasyConnect</strong> 作为很多国内公司和学校用的代理软件，对上班族和学生党来说还是经常用到的。但是作为一个商用代理软件 ，EasyConnect 并没有开源，而且代理是系统级别的，主机的所有流量都会经过被 EC 进程代理。你也不知道它劫持了流量之后到底做了啥</p>
+<p>偶然一天了解到有人已经通过 虚拟机方式 成功启动 easyConnect（git-hagb-docker-easyconnect[1]），相当于把 EasyConnect 运行在一个完全独立的环境，对流量安全来说确实是更好的。只是适配Arm 系统会有一些问题，比如内存占用太高，作者也提供了一些解决思路，不过需要使用者自行尝试</p>
+<p>所以一不做二不休，自己动手尝试了使用 centos 系统封装 EasyConnect，并成功测试只让公司流量走 EC 代理。比较不足的点也就是手动配置有一定成本。不过从结果来看还是不错的，至少动手过程中也了解到了一些技术点，最后也写下了这篇博客让大家都可以参考快速配置一下</p>
+<p>最后谈一下使用建议：如果你是学生党，那比较推荐通过开源项目 docker-easyconnect 来开启代理，主要是能够少折腾</p>
+<p>但如果你是上班族，那就建议自己鼓捣一下。本文提供的思路应该是一个不错的选择，原理和开源项目也差不多</p>
+<p>环境说明：<br>主机: Docker Desktop on Mac<br>基础镜像: centos 8（platform: amd64）<br>容器内安装的软件: EasyConnect 麒麟系统版本（兼容 centos）、firefox、clash、xrdp（提供远程桌面，用于打开 EasyConnect 并登录）</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><p>这边把用于代理的镜像构建过程提交到 (git-docker-centos-ec.Dockerfile[2]) 了，拉取代码后即可构建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 构建镜像</span></span></span><br><span class="line">make build_xrdp</span><br><span class="line"></span><br><span class="line">make build_ec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 运行</span></span></span><br><span class="line">make run_ec</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动容器和服务"><a href="#启动容器和服务" class="headerlink" title="启动容器和服务"></a>启动容器和服务</h3><p><img src="/2022/06/10/easyconnect-centos/ec05.png" alt="login ec"></p>
+<p><img src="/2022/06/10/easyconnect-centos/ec06.png" alt="clash"></p>
+<p><img src="/2022/06/10/easyconnect-centos/ec07.png" alt="内网服务"></p>
+<p>下面具体说一下是怎么实现的</p>
+<h2 id="centos-系统初始化"><a href="#centos-系统初始化" class="headerlink" title="centos 系统初始化"></a>centos 系统初始化</h2><h3 id="安装远程桌面"><a href="#安装远程桌面" class="headerlink" title="安装远程桌面"></a>安装远程桌面</h3><p>桌面的主要目的是登录 EC，EC 必须通过界面 输入公司域账号密码登录<br>Linux 常见的远程桌面软件有 <strong>xrdp</strong> 和 <strong>vnc</strong> ，这边使用 xrdp 进行安装和连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 xrdp</span></span><br><span class="line">yum -y install xrdp</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 xfce</span></span><br><span class="line">yum -y groupinstall Xfce</span><br><span class="line"></span><br><span class="line">echo &quot;xfce4-session&quot; &gt; ~/.Xclients</span><br><span class="line">chmod +x ~/.Xclients</span><br><span class="line"></span><br><span class="line">systemctl enable xrdp</span><br><span class="line">systemctl start xrdp</span><br></pre></td></tr></table></figure>
+
+<p>Mac 和 Windows 系统都可以通过 <strong>Microsoft Remote Desktop</strong> 连接<br><img src="/2022/06/10/easyconnect-centos/ec02.png" alt="connect"></p>
+<p><img src="/2022/06/10/easyconnect-centos/ec03.png" alt="desktop"></p>
+<p>windows 系统有一点特殊: 通过 127.0.0.1 连接本地会提示 “原因是你正在运行一个控制台会话” ，需要连接 <strong>127.0.0.2</strong> ，本质上这两个 ip 都是本机地址</p>
+<h3 id="可选-firefox"><a href="#可选-firefox" class="headerlink" title="可选-firefox"></a>可选-firefox</h3><p>这里装浏览器只是用来测试容器内代理是否生效。安装了 clash 之后也可以在主机测试代理，可以不装<br>chrome([3]) 和 firefox([4]) 这种主流的浏览器都支持在 centos 上安装。我一开始装的 chrome 但是重启过容器之后就发现打不开了。可能是 chrome 太吃内存导致起不来，后面换 firefox 就没遇到这个问题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载 firefox，解压后直接打开 ./firefox/firefox 即可</span></span><br><span class="line">wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/101.0/linux-x86_64/en-US/firefox-101.0.tar.bz2</span><br><span class="line">tar -jxvf firefox-101.0.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<h2 id="EasyConnect"><a href="#EasyConnect" class="headerlink" title="EasyConnect"></a>EasyConnect</h2><p>在容器内安装 EC 也不是特别复杂，选对和系统匹配的版本就行</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载 &amp; 安装</span></span><br><span class="line">wget http://download.sangfor.com.cn/download/product/sslvpn/pkg/linux_767/EasyConnect_x64_7_6_7_3.rpm</span><br><span class="line">rpm -ivh EasyConnect_x64_7_6_7_3.rpm</span><br></pre></td></tr></table></figure>
+
+<p>安装后会自动配置成开机启动，你也能通过 ps 看到 <strong>ECAgent</strong> 和 <strong>EasyMonitor</strong> 进程，分别是流量代理 和 自监控服务</p>
+<p><img src="/2022/06/10/easyconnect-centos/ec04.png" alt="ec process"></p>
+<p>其中 <strong>qemu</strong> 可以理解为虚拟化的实现接口，适配 Mac Arm 系列。还有其他实现方式，对应不同的虚拟机软件，比如 vmware、hyper-v 等</p>
+<h3 id="ECAgent-进程定期强制清理"><a href="#ECAgent-进程定期强制清理" class="headerlink" title="ECAgent 进程定期强制清理"></a>ECAgent 进程定期强制清理</h3><p>通过 qemu 启动的 EC 会有内存泄漏的问题：随着运行容器的内存占用越来越大。这个问题可以参考 Hagb 作者对部分 issue 的回复([5])。彻底解决可能需要修改系统调用，简单解决的话，写个 crontab 定期清理 ECAgent 就行，ECMonitor 会自动把它拉起来，这些都是 EasyConnect 自带的进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 每个小时重启一次 ECAgent 进程</span></span><br><span class="line">RUN echo &quot;0 * * * * nohup ps -ef | grep ECAgent | grep -v grep | awk &#x27;&#123;print $2&#125;&#x27; | xargs  kill -9&quot; &gt;&gt; /var/spool/cron/root</span><br></pre></td></tr></table></figure>
+
+<h2 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h2><p>把 EC 通过 容器启动起来之后，我们就完成了大头了。接下来的关键就是要分别在容器和主机开启代理，将公司内网的流量指向容器内，非公司内网流量还是正常走。这样才能让主机正常的流量不被 EC 劫持<br>clash 的完整配置可参考官方wiki([6])</p>
+<h3 id="容器内部-服务端"><a href="#容器内部-服务端" class="headerlink" title="容器内部-服务端"></a>容器内部-服务端</h3><p>安装 linux 版本的 <strong>clash</strong> 并设置 sock5 代理端口作为服务端即可，对应前面 启动容器 开放的 7881 端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载 clash linux 版</span></span><br><span class="line">wget https://github.com/Dreamacro/clash/releases/download/v1.10.6/clash-linux-amd64-v1.10.6.gz</span><br><span class="line">gzip -d clash-linux-amd64-v1.10.6.gz &amp;&amp; mv clash-linux-amd64-v1.10.6 clash &amp;&amp; chmod +x clash</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动方式</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 第一次启动需要下载国家名称和位置信息(https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb)，启动会比较慢</span></span></span><br><span class="line">./clash -d .</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config.yaml, 需要和 clash 可执行文件放到同一个目录</span></span><br><span class="line">mixed-port: 7890</span><br><span class="line">external-controller: 127.0.0.1:9090</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 这三个配置对应 sock5 代理地址</span></span></span><br><span class="line">allow-lan: true</span><br><span class="line">bind-address: 0.0.0.0</span><br><span class="line">socks-port: 7881</span><br></pre></td></tr></table></figure>
+
+<h3 id="主机-客户端"><a href="#主机-客户端" class="headerlink" title="主机-客户端"></a>主机-客户端</h3><p>以域名作为规则，配置转发规则 + 转发目标端口即可</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">proxies:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">socks5_ec</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">socks5</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">localhost</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">7881</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># proxy 分组，只用于展示</span></span><br><span class="line"><span class="attr">proxy-groups:</span></span><br><span class="line">  <span class="string">......</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 规则配置，特定域名转发到对应 proxy</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,内网域名,socks5_ec</span></span><br><span class="line">  <span class="string">......</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="其他配置-容器内部-etc-hosts"><a href="#其他配置-容器内部-etc-hosts" class="headerlink" title="其他配置-容器内部-/etc/hosts"></a>其他配置-容器内部-/etc/hosts</h3><p>后面调试的时候发现部分内网域名无法正常代理，大概率是 <strong>DNS</strong> 的问题: EC 装在主机的时候，<strong>主机的 DNS 被注入了内网解析的策略</strong>，诸如 gitlab.公司内网域名 这种地址，才能被正常解析。但是通过 主机 -&gt; 容器 -&gt; clash -&gt; EC 的方式，DNS 似乎就没有被注入策略，需要手动配置 /etc/hosts，将域名和 ip 的关系硬写进去才行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># /etc/hosts</span><br><span class="line"># git</span><br><span class="line">内网ip gitlab.内网域名.com</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<h2 id="主机-EC-卸载"><a href="#主机-EC-卸载" class="headerlink" title="主机 EC 卸载"></a>主机 EC 卸载</h2><p>网上有不少人说EC很难卸载干净，实际尝试确实如此，需要好几步，好在已经有人整理了([7])，参考着来做就行</p>
+<p>卸载前: 即便主机没有开代理，都有三个进程在后台运行<br>– ECAgentProxy 在 Linux 版本的 EC 上没有这个进程，不确定是做啥的</p>
+<p><img src="/2022/06/10/easyconnect-centos/ec08.png" alt="ec process on mac"></p>
+<p>卸载步骤:</p>
+<ul>
+<li><p>sudo su 进入管理员模式</p>
+</li>
+<li><p>删除 /Library/LaunchDaemons/com.sangfor.EasyMonitor.plist</p>
+</li>
+</ul>
+<p>其中 <strong>plist</strong>([8]) 是 Mac 系统用来设置启动项的工具，相当于 linux 的 systemd<br>这里相当于删除了 EC 的开机启动项</p>
+<p><img src="/2022/06/10/easyconnect-centos/ec09.png" alt="ECMonitor"><br>– ECMonitor 启动项，声明了启动程序位置</p>
+<ul>
+<li><p>删除 /Library/LaunchAgents/com.sangfor.ECAgentProxy.plist</p>
+</li>
+<li><p>打开钥匙串，找到深信服添加的根证书(搜索 sang)，删除</p>
+</li>
+</ul>
+<p><img src="/2022/06/10/easyconnect-centos/ec10.png" alt="删除钥匙串"></p>
+<ul>
+<li>删除应用<br>直接删除 /Applications/EasyConnect.app 整个目录即可</li>
+</ul>
+<p>Windows 系统的卸载方式可以参考 Hagb 作者写的知乎([9])</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>做完了这些东西，还是很有成就感的，有一种看上去非常朴素的乐高，但稍加想象力和努力，就能够拼成各种建筑，而且过程中也能学到很多东西</p>
+<p>还要特别感谢一个同事，平时他总能有各种意想不到的点子，经常关注新软件和新技术。这个需求的灵感也是来自于他</p>
+<p>总之，对一些软件对系统不合理的侵入，确实应该想办法解决。现在已经不是资源吃紧的时代了，电脑卡往往有一部分原因是使用者没有注意一些细节。从一开始就杜绝软件对系统权限、流量、文件不合理的申请或使用，会比后面回过头再清理方便太多</p>
+<p>希望后面还能发现更多软件的问题，多解决多总结~</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>[1] <a target="_blank" rel="noopener" href="https://github.com/Hagb/docker-easyconnect">开源方案</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://github.com/smiecj/docker-centos/blob/main/Dockerfiles/net/ec/easyconnect.Dockerfile">docker-centos easyconnect.Dockerfile</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022425145">CentOS 7安装谷歌浏览器</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://linuxconfig.org/how-to-install-firefox-on-redhat-8">How to install latest Firefox browser on RHEL 8 / CentOS 8 Workstation</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://github.com/Hagb/docker-easyconnect/issues/120#issue-1148054348">issue-MAC M1 pro是否有合适的版本 #120</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash/wiki/configuration">clash官方配置教程</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://www.v2ex.com/t/762221">Mac 删除深信服 EasyConnect 的 EasyMoniter、ECAgent 的开机启动和根证书的方法</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://www.fythonfang.com/blog/2021/4/19/mac-launchd-daemons-and-agents-tutorial">Mac Launchd 介绍和使用</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/389894063">用docker封印EasyConnect并连接远程桌面和数据库</a></p>
+<p>[10] <a target="_blank" rel="noopener" href="https://superuser.com/a/1500416">RDP to computer from same computer fails. Why?</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2022/06/10/easyconnect-centos/">http://smiecj.github.io/2022/06/10/easyconnect-centos/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%90%86/">代理</a><a class="post-meta__tags" href="/tags/docker/">docker</a></div><div class="post_share"><div class="social-share" data-image="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/05/31/vscode-tools/"><img class="next-cover" src="https://code.visualstudio.com/assets/docs/languages/javascript/overview.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">vscode 使用技巧闲谈</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/19/dockerfile-centos-dev/" title="通过 DockerFile 搭建开发镜像"><img class="cover" src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-19</div><div class="title">通过 DockerFile 搭建开发镜像</div></div></a></div><div><a href="/2022/01/10/mac-init-software/" title="Mac 预装软件整理"><img class="cover" src="http://up.iosdesk.com/pic/80/c4/80/80c48029bdf373fa0d75dd00b5afe76e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-10</div><div class="title">Mac 预装软件整理</div></div></a></div><div><a href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈"><img class="cover" src="https://code.visualstudio.com/assets/docs/languages/javascript/overview.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-31</div><div class="title">vscode 使用技巧闲谈</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>关注我</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">学习中</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-number">2.</span> <span class="toc-text">效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="toc-number">2.1.</span> <span class="toc-text">构建镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%92%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text">启动容器和服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#centos-%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">centos 系统初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="toc-number">3.1.</span> <span class="toc-text">安装远程桌面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%80%89-firefox"><span class="toc-number">3.2.</span> <span class="toc-text">可选-firefox</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EasyConnect"><span class="toc-number">4.</span> <span class="toc-text">EasyConnect</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ECAgent-%E8%BF%9B%E7%A8%8B%E5%AE%9A%E6%9C%9F%E5%BC%BA%E5%88%B6%E6%B8%85%E7%90%86"><span class="toc-number">4.2.</span> <span class="toc-text">ECAgent 进程定期强制清理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clash"><span class="toc-number">5.</span> <span class="toc-text">Clash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">5.1.</span> <span class="toc-text">容器内部-服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">5.2.</span> <span class="toc-text">主机-客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%85%8D%E7%BD%AE-%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8-etc-hosts"><span class="toc-number">5.3.</span> <span class="toc-text">其他配置-容器内部-&#x2F;etc&#x2F;hosts</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA-EC-%E5%8D%B8%E8%BD%BD"><span class="toc-number">6.</span> <span class="toc-text">主机 EC 卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/06/10/easyconnect-centos/" title="EasyConnect 代理工具容器化运行"><img src="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="EasyConnect 代理工具容器化运行"/></a><div class="content"><a class="title" href="/2022/06/10/easyconnect-centos/" title="EasyConnect 代理工具容器化运行">EasyConnect 代理工具容器化运行</a><time datetime="2022-06-09T16:00:00.000Z" title="发表于 2022-06-10 00:00:00">2022-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈"><img src="https://code.visualstudio.com/assets/docs/languages/javascript/overview.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vscode 使用技巧闲谈"/></a><div class="content"><a class="title" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈">vscode 使用技巧闲谈</a><time datetime="2022-05-30T16:00:00.000Z" title="发表于 2022-05-31 00:00:00">2022-05-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群"><img src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 Docker Compose 本地启动 zk 集群"/></a><div class="content"><a class="title" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群">通过 Docker Compose 本地启动 zk 集群</a><time datetime="2022-05-17T16:00:00.000Z" title="发表于 2022-05-18 00:00:00">2022-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透"><img src="/2022/03/12/rasp-ssd-frp/rasp01.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派通过 SSD 部署 和 配置内网穿透"/></a><div class="content"><a class="title" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透">树莓派通过 SSD 部署 和 配置内网穿透</a><time datetime="2022-03-11T16:00:00.000Z" title="发表于 2022-03-12 00:00:00">2022-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/28/life-202202/" title="2月份随便记记"><img src="/2022/02/28/life-202202/01.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2月份随便记记"/></a><div class="content"><a class="title" href="/2022/02/28/life-202202/" title="2月份随便记记">2月份随便记记</a><time datetime="2022-02-27T16:00:00.000Z" title="发表于 2022-02-28 00:00:00">2022-02-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: '553a3f8b7b285e671be7a9e89171980e',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
