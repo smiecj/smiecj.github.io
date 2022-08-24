@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>通过 Docker Compose 本地启动 hadoop 集群 | Smiecj的小窝</title><meta name="keywords" content="Linux,Docker,大数据"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一次对大数据组件“容器化”的实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 Docker Compose 本地启动 hadoop 集群">
+<meta property="og:url" content="http://smiecj.github.io/2022/08/13/dockerfile-compose-hdfs/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="一次对大数据组件“容器化”的实践">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.runoob.com/wp-content/uploads/2021/02/1_kPKoXmHBDmGthbah-0549A.png">
+<meta property="article:published_time" content="2022-08-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-12T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.runoob.com/wp-content/uploads/2021/02/1_kPKoXmHBDmGthbah-0549A.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2022/08/13/dockerfile-compose-hdfs/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '通过 Docker Compose 本地启动 hadoop 集群',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-13 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.runoob.com/wp-content/uploads/2021/02/1_kPKoXmHBDmGthbah-0549A.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">通过 Docker Compose 本地启动 hadoop 集群</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-12T16:00:00.000Z" title="发表于 2022-08-13 00:00:00">2022-08-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-12T16:00:00.000Z" title="更新于 2022-08-13 00:00:00">2022-08-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Docker/">Docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="通过 Docker Compose 本地启动 hadoop 集群"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/126474924">本文csdn地址</a></p>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/smiecj/docker-centos/releases/tag/v1.3.0">docker-centos</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在完成几个开源中间件的容器化一键部署之后，和一个同事聊到了关于如何在本地部署 hadoop 集群，方便进行大数据任务相关的测试</p>
+<p>后面我们一起搜了一些资料，在知乎<sup><font color='#49E844'>[1]</font></sup>上找到有人弄好了一套镜像<sup><font color='#49E844'>[2]</font></sup>, 功能应该是比较完善的，只是稍微有一点不足是没有支持 arm 版本</p>
+<p>所以之后那位同事还是用虚拟机的方式，手动部署 Hadoop 搭建好了本地测试集群，省不了的是一些手动配置的操作，虽然也不会太复杂</p>
+<p>而自己的想法是: 既然已经接触了除了 hdfs 之外的上层应用，比如 knox、ranger 等，是否可以按照之前部署 zk 集群的思路<sup><font color='#49E844'>[3]</font></sup>，把 hadoop 基础集群也写到 docker compose 里面呢？</p>
+<p>于是，接近两个月的各种踩坑和实践开始了</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><h3 id="服务部署"><a href="#服务部署" class="headerlink" title="服务部署"></a>服务部署</h3><p>两种部署方式: 从头开始搭建镜像 再启动服务 or 直接从 dockerhub 拉取镜像并启动服务，通过前者有助于你了解镜像结构，但是如果是想快速部署服务建议参考后者</p>
+<p>【建议】直接拉取镜像:<br>为了方便使用，我已经将镜像提交到 dockerhub (mzsmieli/centos_hdfs_full)，直接拉取并启动即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载镜像</span></span><br><span class="line">docker pull mzsmieli/centos_hdfs_full:v1.0.0</span><br><span class="line">docker pull mzsmieli/centos_mysql:v1.0.0</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行hdfs集群</span></span><br><span class="line">REPO=mzsmieli make run_hdfs_cluster</span><br></pre></td></tr></table></figure>
+
+<p>构建镜像:<br>下载工程 docker-centos 后，需要依次准备以下镜像:</p>
+<ul>
+<li>centos_base<ul>
+<li>centos 基础环境镜像</li>
+</ul>
+</li>
+<li>centos_java<ul>
+<li>java 基础镜像</li>
+</ul>
+</li>
+<li>centos_hdfs<ul>
+<li>hdfs 基础镜像，包含 hadoop 服务，依赖 java 镜像</li>
+</ul>
+</li>
+<li>centos_hive<ul>
+<li>hive 基础镜像，包含 hadoop、hive 服务，依赖 hdfs 镜像</li>
+</ul>
+</li>
+<li>centos_knox<ul>
+<li>knox 镜像，依赖 java 镜像</li>
+</ul>
+</li>
+<li>centos_hdfs_full<ul>
+<li>完整 hadoop 镜像，在 hdfs+hive+knox 基础上提供 flink、spark</li>
+</ul>
+</li>
+<li>centos_minimal<ul>
+<li>centos 部署服务最小镜像</li>
+</ul>
+</li>
+<li>centos_mysql<ul>
+<li>mysql 镜像，依赖 minimal</li>
+</ul>
+</li>
+</ul>
+<p>镜像整体架构图:<br><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_image.png" alt="hdfs_image"></p>
+<p>概括来说就是 <strong>centos 基础镜像 -&gt; 各语言开发镜像 -&gt; 服务镜像</strong></p>
+<p>完整指令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 构建镜像（首次构建所有镜像大约需要半个小时）</span></span><br><span class="line">make build_hdfs_cluster</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行hdfs集群</span></span><br><span class="line">make run_hdfs_cluster</span><br></pre></td></tr></table></figure>
+
+<p>端口和地址说明:</p>
+<ul>
+<li><strong>8443</strong>: knox 网关地址<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:8443/gateway/sandbox/yarn">http://localhost:8443/gateway/sandbox/yarn</a></li>
+<li><a target="_blank" rel="noopener" href="http://localhost:8443/gateway/sandbox/hdfs">http://localhost:8443/gateway/sandbox/hdfs</a></li>
+</ul>
+</li>
+<li><strong>8088</strong>: hdfs resourcemanager web 地址（yarn）<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:8088/">http://localhost:8088</a></li>
+</ul>
+</li>
+<li><strong>50070</strong>: hdfs namenode web 地址（data）<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:50070/">http://localhost:50070</a></li>
+</ul>
+</li>
+<li><strong>10000</strong>: hive server 地址</li>
+<li><strong>33306</strong>: mysql 端口</li>
+</ul>
+<h3 id="hdfs"><a href="#hdfs" class="headerlink" title="hdfs"></a>hdfs</h3><p><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_hdfs_datanode.png" alt="hdfs_hdfs_datanode"></p>
+<h3 id="yarn"><a href="#yarn" class="headerlink" title="yarn"></a>yarn</h3><p><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_yarn_total.png" alt="hdfs_yarn_total"></p>
+<h3 id="flink、spark"><a href="#flink、spark" class="headerlink" title="flink、spark"></a>flink、spark</h3><p>提交任务这块做了简单的提交验证</p>
+<p>提交 flink 任务:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/modules/flink-1.15.0</span><br><span class="line">./bin/flink run -m yarn-cluster ./examples/batch/WordCount.jar</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_flink_web.png" alt="hdfs_flink_web"></p>
+<p>提交 spark 任务:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/modules/spark/bin/spark-submit --master yarn --deploy-mode cluster --class org.apache.spark.examples.SparkPi /opt/modules/spark/examples/jars/spark-examples_2.12-3.2.2.jar 100</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_spark_yarn.png" alt="hdfs_spark_yarn"></p>
+<h3 id="hive"><a href="#hive" class="headerlink" title="hive"></a>hive</h3><p>hive 可通过 开源数据库客户端工具，dbeaver<sup><font color='#49E844'>[4]</font></sup> 直接连接，注意需要填用户名，否则可能会因为权限问题无法执行 SQL</p>
+<p><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_hive_connect.png" alt="hdfs_hive_connect"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="组件版本"><a href="#组件版本" class="headerlink" title="组件版本"></a>组件版本</h3><p>hdfs - 3.3.2<br>knox - 1.6.1<br>hive - 3.1.2<br>flink - 1.15<br>spark - 3.2</p>
+<p>其中 <strong>knox</strong><sup><font color='#49E844'>[5]</font></sup> 是大数据组件通用的网关服务，可以用于配置统一代理、身份认证、单点登录等，一般是刚搭建大数据集群的时候需要装，后续就不需要怎么管了。其他服务比较核心</p>
+<h3 id="hadoop"><a href="#hadoop" class="headerlink" title="hadoop"></a>hadoop</h3><p>基本的安装和配置，参考网上的教程<sup><font color='#49E844'>[6]</font></sup>做就行。为了能在一个镜像中同时支持单点和集群启动，dockerfile 中做了通过识别容器启动环境参数，进行不同的初始化和服务启动的功能：在容器的启动参数中指定 <strong>-e HDFS_START=hdfsstart / hdfsstartall</strong>，即可区分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Dockerfiles/emr/hdfs/scripts/hdfs-start.sh</span><br><span class="line"># 单点启动 hdfs 服务脚本</span><br><span class="line">## 服务启动指令</span><br><span class="line">./sbin/start-dfs.sh</span><br><span class="line">./sbin/start-yarn.sh</span><br><span class="line"></span><br><span class="line"># Dockerfiles/emr/hdfs/scripts/hdfs-start-all.sh</span><br><span class="line"># 启动 hdfs 集群脚本</span><br><span class="line">## 配置: /etc/hadoop/conf/workers</span><br><span class="line">todo: 启动指令</span><br><span class="line">## 服务启动指令</span><br><span class="line">./sbin/start-all.sh</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="knox"><a href="#knox" class="headerlink" title="knox"></a>knox</h3><p>knox 主要是配置需要留意，大体分为 knox 本身的服务配置、网关配置 和 代理的服务配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># knox配置</span><br><span class="line">## /opt/modules/knox/conf/gateway-site.xml</span><br><span class="line">### 禁用 ssl 和 身份认证，方便调试</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;ssl.enabled&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;provider&gt;</span><br><span class="line">    &lt;role&gt;identity-assertion&lt;/role&gt;</span><br><span class="line">    &lt;name&gt;Default&lt;/name&gt;</span><br><span class="line">    &lt;enabled&gt;disable&lt;/enabled&gt;</span><br><span class="line">&lt;/provider&gt;</span><br><span class="line"></span><br><span class="line"># 网关配置</span><br><span class="line">## /opt/modules/knox/conf/topologies/sandbox.xml</span><br><span class="line">### hdfs 和 yarn 地址，因为 namenode 和 knox 都部署在主节点，所以这里配的都是 localhost</span><br><span class="line">&lt;service&gt;</span><br><span class="line">    &lt;role&gt;HDFSUI&lt;/role&gt;</span><br><span class="line">    &lt;url&gt;http://localhost:50070&lt;/url&gt;</span><br><span class="line">    &lt;version&gt;2.7.0&lt;/version&gt;</span><br><span class="line">&lt;/service&gt;</span><br><span class="line"></span><br><span class="line">&lt;service&gt;</span><br><span class="line">    &lt;role&gt;YARNUI&lt;/role&gt;</span><br><span class="line">    &lt;url&gt;http://localhost:8088&lt;/url&gt;</span><br><span class="line">&lt;/service&gt;</span><br><span class="line"></span><br><span class="line"># 代理服务配置</span><br><span class="line">## /opt/modules/knox/data/services/hdfsui/2.7.0/rewrite.xml</span><br><span class="line">### 这里需要加个规则: 因为 hdfs 的 index.html 页面实际是一个 跳转页面（&lt;a&gt; 元素），而直接访问</span><br><span class="line">### 这个地址会被链接到容器环境内部域名（hadoop1），而不是外部域名（localhost:8443）导致在外部访问跳转失败</span><br><span class="line">### 因此一个最直接的解决方式就是将 index.html 直接链接到 dfshealth.html 让 knox 帮我们做这个跳转，保持外部域名（gateway.url）</span><br><span class="line"></span><br><span class="line">&lt;rule dir=&quot;OUT&quot; name=&quot;HDFSUI/redirect&quot; pattern=&quot;/index.html&quot;&gt;</span><br><span class="line">  &lt;rewrite template=&quot;&#123;gateway.url&#125;/hdfs/dfshealth.html&quot;/&gt;</span><br><span class="line">&lt;/rule&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="hive-1"><a href="#hive-1" class="headerlink" title="hive"></a>hive</h3><p>hive 服务启动前，需要做初始化 mysql 的操作，涉及到两个细节：hive 初始化脚本 init-hive.sh 中，需要执行 schematool 进行元数据初始化；compose 文件中也要定义 主节点，也是 hive 启动的节点，需要依赖 mysql 容器（depends_on）</p>
+<h3 id="提交镜像"><a href="#提交镜像" class="headerlink" title="提交镜像"></a>提交镜像</h3><p>在实践的过程中发现 Dockerfile 在分享上也不是特别方便，比如新来的同学想使用 dev_full 完整开发镜像，他还需要在自己的电脑上重新构建一次。最好的方法还是通过镜像仓库直接分享镜像<br>因此后面把自己的镜像都提交到了 dockerhub 中，包括之前做的 easyconnect<sup><font color='#49E844'>[7]</font></sup> 代理镜像、dev_full<sup><font color='#49E844'>[8]</font></sup> 包含多种开发语言的开发镜像<br>构建方式: 通过 <strong>buildx</strong><sup><font color='#49E844'>[9]</font></sup> 工具构建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 示例: 构建并提交 base 镜像，同时构建 arm 和 amd 版本</span></span><br><span class="line">docker buildx build --platform linux/arm64,linux/amd64 --no-cache -f ./Dockerfiles/system/centos_base.Dockerfile -t dockerhub账号名/centos_base:v1.0 ./Dockerfiles/system --push</span><br></pre></td></tr></table></figure>
+
+<p>在 dockerhub 查看刚提交的镜像:<br><img src="/2022/08/13/dockerfile-compose-hdfs/hdfs_dockerhub.png" alt="hdfs_dockerhub"></p>
+<p>扩展: 运行 easyconnect 镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用 easyconnect 镜像</span></span><br><span class="line">REPO=mzsmieli make run_rc</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将下载 mzsmieli/centos_easyconnect:v1.0.0</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完整指令</span></span><br><span class="line">docker pull mzsmieli/centos_easyconnect:v1.0.0</span><br><span class="line">docker run -it -d --privileged=true --platform linux/amd64 --hostname test_ec --name dev_ec -p 3389:3389 -p 7881:7881 mzsmieli/centos_easyconnect:v1.0.0 /usr/sbin/init</span><br><span class="line"><span class="meta">#</span><span class="bash"> vnc 默认密码: root/root_123</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h2><p>坚信搞好属于自己的一套开发环境是学习任何新技术的基础，工欲善其事，必先利其器。这篇博客也仅仅是将个人习惯的开发环境 分享一下，每个人肯定都有自己的习惯，不存在谁比谁更好，只要能达到自己想要的学习效果，都是好方法。开发镜像也是，IDE 也是，开发语言也是。总是陷入对 世界上最好语言的争论，真的没必要<br>当然，在自己整完这些东西之后，再次感觉到 应该喘口气，思考自己想做的下个东西是什么了</p>
+<!--
+## 展望
+
+### 功能扩展: 在 dockerhub 上补充镜像使用方式说明
+
+#### 参考教程
+https://poweruser.blog/pushing-a-readme-file-to-docker-hub-68200bc4bf71
+https://github.com/christian-korneck/docker-pushrm
+
+### 功能扩展: 支持更多任务参数配置
+如: spark 任务使用内存
+
+https://hub.docker.com/r/bitnami/spark
+
+[参数: SPARK_WORKER_MEMORY]https://github.com/s1mplecc/spark-hadoop-docker/blob/master/docker-compose.yml#L28
+
+### 功能扩展: 身份认证
+为了方便测试，knox 的 ldap 认证功能自己是关闭的，时间关系也暂时没有研究 ranger 的集成
+
+### 优化: 镜像分层太多，通过 compose 部署的时候甚至出现了 failed to register layer: max depth exceeded 的错误，清理了下本地镜像才解决 - https://stackoverflow.com/a/58303779
+
+### 探索: github action
+https://github.com/marketplace/actions/docker-hub-description
+
+### 探索: 如何实现真正的容器化
+这些也是自己需要了解的
+-->
+
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/421375012">使用 Docker 快速部署 Spark + Hadoop 大数据集群</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://github.com/s1mplecc/spark-hadoop-docker">git-spark-hadoop-docker</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/4wT_C4Qvywwmh1a9edktxA">通过 Docker Compose 本地启动 zk 集群</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://github.com/dbeaver/dbeaver">dbeaver</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://knox.apache.org/books/knox-1-6-0/user-guide.html">knox官方文档</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000038508026?utm_source=sf-similar-article">Hadoop集群的部署（二）</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://smiecj.com/2022/06/10/easyconnect-centos/">EasyConnect 代理工具容器化运行</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://hub.docker.com/r/mzsmieli/centos_dev_full">dev_full image</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://github.com/docker/buildx">docker buildx</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2022/08/13/dockerfile-compose-hdfs/">http://smiecj.github.io/2022/08/13/dockerfile-compose-hdfs/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></div><div class="post_share"><div class="social-share" data-image="https://www.runoob.com/wp-content/uploads/2021/02/1_kPKoXmHBDmGthbah-0549A.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/06/10/easyconnect-centos/"><img class="next-cover" src="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">EasyConnect 代理工具容器化运行</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群"><img class="cover" src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-18</div><div class="title">通过 Docker Compose 本地启动 zk 集群</div></div></a></div><div><a href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透"><img class="cover" src="/2022/03/12/rasp-ssd-frp/rasp01.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-12</div><div class="title">树莓派通过 SSD 部署 和 配置内网穿透</div></div></a></div><div><a href="/2021/11/20/nebula-gateway-sigpipe/" title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-20</div><div class="title">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>关注我</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">学习中</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-number">3.</span> <span class="toc-text">效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2"><span class="toc-number">3.1.</span> <span class="toc-text">服务部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hdfs"><span class="toc-number">3.2.</span> <span class="toc-text">hdfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yarn"><span class="toc-number">3.3.</span> <span class="toc-text">yarn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flink%E3%80%81spark"><span class="toc-number">3.4.</span> <span class="toc-text">flink、spark</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hive"><span class="toc-number">3.5.</span> <span class="toc-text">hive</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E7%89%88%E6%9C%AC"><span class="toc-number">4.1.</span> <span class="toc-text">组件版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hadoop"><span class="toc-number">4.2.</span> <span class="toc-text">hadoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#knox"><span class="toc-number">4.3.</span> <span class="toc-text">knox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hive-1"><span class="toc-number">4.4.</span> <span class="toc-text">hive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E9%95%9C%E5%83%8F"><span class="toc-number">4.5.</span> <span class="toc-text">提交镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%A8%80"><span class="toc-number">5.</span> <span class="toc-text">后言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/08/13/dockerfile-compose-hdfs/" title="通过 Docker Compose 本地启动 hadoop 集群"><img src="https://www.runoob.com/wp-content/uploads/2021/02/1_kPKoXmHBDmGthbah-0549A.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 Docker Compose 本地启动 hadoop 集群"/></a><div class="content"><a class="title" href="/2022/08/13/dockerfile-compose-hdfs/" title="通过 Docker Compose 本地启动 hadoop 集群">通过 Docker Compose 本地启动 hadoop 集群</a><time datetime="2022-08-12T16:00:00.000Z" title="发表于 2022-08-13 00:00:00">2022-08-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/10/easyconnect-centos/" title="EasyConnect 代理工具容器化运行"><img src="https://image.winudf.com/v2/image1/Y29tLnNhbmdmb3IudnBuLmNsaWVudC50YWJsZXRfc2NyZWVuXzBfMTU2NzAxNjA3M18wNjE" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="EasyConnect 代理工具容器化运行"/></a><div class="content"><a class="title" href="/2022/06/10/easyconnect-centos/" title="EasyConnect 代理工具容器化运行">EasyConnect 代理工具容器化运行</a><time datetime="2022-06-09T16:00:00.000Z" title="发表于 2022-06-10 00:00:00">2022-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈"><img src="https://code.visualstudio.com/assets/docs/languages/javascript/overview.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vscode 使用技巧闲谈"/></a><div class="content"><a class="title" href="/2022/05/31/vscode-tools/" title="vscode 使用技巧闲谈">vscode 使用技巧闲谈</a><time datetime="2022-05-30T16:00:00.000Z" title="发表于 2022-05-31 00:00:00">2022-05-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群"><img src="https://iamondemand.com/wp-content/uploads/2015/04/cool-docker-image.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过 Docker Compose 本地启动 zk 集群"/></a><div class="content"><a class="title" href="/2022/05/18/dockerfile-compose/" title="通过 Docker Compose 本地启动 zk 集群">通过 Docker Compose 本地启动 zk 集群</a><time datetime="2022-05-17T16:00:00.000Z" title="发表于 2022-05-18 00:00:00">2022-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透"><img src="/2022/03/12/rasp-ssd-frp/rasp01.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派通过 SSD 部署 和 配置内网穿透"/></a><div class="content"><a class="title" href="/2022/03/12/rasp-ssd-frp/" title="树莓派通过 SSD 部署 和 配置内网穿透">树莓派通过 SSD 部署 和 配置内网穿透</a><time datetime="2022-03-11T16:00:00.000Z" title="发表于 2022-03-12 00:00:00">2022-03-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: '4a2e28bc5703374c43c161fce659e297',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
