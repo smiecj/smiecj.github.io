@@ -6,7 +6,7 @@
   <link href="http://smiecj.github.io/atom.xml" rel="self"/>
   
   <link href="http://smiecj.github.io/"/>
-  <updated>2023-01-16T16:00:00.000Z</updated>
+  <updated>2023-01-29T16:00:00.000Z</updated>
   <id>http://smiecj.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>那个男孩</title>
+    <link href="http://smiecj.github.io/2023/01/30/life-202301/"/>
+    <id>http://smiecj.github.io/2023/01/30/life-202301/</id>
+    <published>2023-01-29T16:00:00.000Z</published>
+    <updated>2023-01-29T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="腌面"><a href="#腌面" class="headerlink" title="腌面"></a>腌面</h2><p>就在家门口吃到了很不错的腌面，面的口感非常到位，汤里面的酒糟也是画龙点睛</p><p>面里面的葱蒜稍微少了一点，不过也无碍了，这就是家乡的味道</p><p><img src="/2023/01/30/life-202301/02.png" alt="腌面"></p><h2 id="民间足球"><a href="#民间足球" class="headerlink" title="民间足球"></a>民间足球</h2><p>老家的足球文化还是挺不错的，到村里初中看看，都在举办一场球赛</p><p>看着这些说不上有名气的赞助商，球场简陋的环境，但球场周边却不乏热情的观众，不禁又联想到去年和大家一起看的国足比赛了，无奈笑出了声</p><p>还是不吐槽罢了，真到了国足能有起色那天，一定不会少了真心热爱足球的观众。现在所希望的只是让这种平凡的比赛，能真正被社会关注，带动起民间足球的氛围</p><p><img src="/2023/01/30/life-202301/03.jpeg" alt="老家足球"></p><h2 id="英超"><a href="#英超" class="headerlink" title="英超"></a>英超</h2><p>连续两年都有足球节目，只是相比去年让人闹心的结果，今年换成了酣畅淋漓的对攻剧本</p><p>做个中立球迷还是挺好的，什么结果都能接受，什么热闹都能凑</p><p><img src="/2023/01/30/life-202301/04.png" alt="看英超"></p><h2 id="创造"><a href="#创造" class="headerlink" title="创造"></a>创造</h2><p>和亲戚聊天聊到一个问题：如何能过上自己满意的人生</p><p>这个问题肯定很难，我们也没讨论出一个共识，毕竟每个人都有权对自己的人生进行规划，这种问题非要达成共识的话，方向就已经有问题了</p><p>最通用的办法，可能还是先接受现实 ，再试图创造不一样的东西 。接受现实更多的是迫不得已，我们已经经历了低谷的三年，今年可能会好转，但谁也说不准。创造这点也是和疫情有关：封控三年，需要改变的不只是相关政策，还有人们思想的惯性，治疗内心的伤痕。很多人还习惯于听天由命，不受控制的生活节奏中。只有自己相信 自己能改变什么，能创造出什么东西的时候，才能拨动久未触动的内心</p><h2 id="纸炮"><a href="#纸炮" class="headerlink" title="纸炮"></a>纸炮</h2><p>回到老家发现纸炮已经买好了</p><p>看到纸箱里满满的一堆手持烟花和三响炮，还厚古薄今，跟老家小孩子说这都是我们以前玩剩的，没有鱼雷，就没那味</p><p>结果跟他们一起玩起来，还不是有种回到童年的感觉</p><p>随时间变化的可能不只是烟花，还有童心</p><p><img src="/2023/01/30/life-202301/05.png" alt="噼里啪啦"></p><h2 id="那个男孩"><a href="#那个男孩" class="headerlink" title="那个男孩"></a>那个男孩</h2><p>那个生活中有很多烦恼，但依然选择在过年期间，给自己弟弟妹妹报以最纯真笑颜的男孩</p><p>那个还没从校园毕业，但已经考虑好这两年的发展方向，构想着成家之后家庭模样的男孩</p><p>那个作为长辈，承担很多事情，承受着来自后生和更长辈的各种目光，但依然能从容应对，还能给后辈适时提醒和引导的“男孩”</p><p>有幸认识这些男孩</p>]]></content>
+    
+    
+    <summary type="html">过年随想</summary>
+    
+    
+    
+    <category term="生活" scheme="http://smiecj.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    <category term="记录" scheme="http://smiecj.github.io/categories/%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+    <category term="生活" scheme="http://smiecj.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>sadserver 题目思路概述</title>
@@ -108,9 +131,9 @@
     <category term="Docker" scheme="http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Docker/"/>
     
     
-    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
-    
     <category term="Docker" scheme="http://smiecj.github.io/tags/Docker/"/>
+    
+    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
     
   </entry>
   
@@ -206,9 +229,9 @@
     <category term="Docker" scheme="http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Docker/"/>
     
     
-    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
-    
     <category term="Docker" scheme="http://smiecj.github.io/tags/Docker/"/>
+    
+    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
     
     <category term="大数据" scheme="http://smiecj.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
@@ -285,9 +308,9 @@
     <category term="Docker" scheme="http://smiecj.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Docker/"/>
     
     
-    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
-    
     <category term="Docker" scheme="http://smiecj.github.io/tags/Docker/"/>
+    
+    <category term="Linux" scheme="http://smiecj.github.io/tags/Linux/"/>
     
   </entry>
   
