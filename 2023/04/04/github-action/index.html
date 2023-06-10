@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>github action 基于个人项目实践 | Smiecj的小窝</title><meta name="keywords" content="云服务,github"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="自动化构建自己的服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github action 基于个人项目实践">
+<meta property="og:url" content="http://smiecj.github.io/2023/04/04/github-action/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="自动化构建自己的服务">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smiecj.github.io/img/blog_img/action.webp">
+<meta property="article:published_time" content="2023-04-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-09T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="云服务">
+<meta property="article:tag" content="github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smiecj.github.io/img/blog_img/action.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2023/04/04/github-action/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'github action 基于个人项目实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-10 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/blog_img/action.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">github action 基于个人项目实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-03T16:00:00.000Z" title="发表于 2023-04-04 00:00:00">2023-04-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-09T16:00:00.000Z" title="更新于 2023-06-10 00:00:00">2023-06-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/github/">github</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="github action 基于个人项目实践"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/131145170">本文csdn地址</a></p>
+<h2 id="DevOps-和-Jenkins"><a href="#DevOps-和-Jenkins" class="headerlink" title="DevOps 和 Jenkins"></a>DevOps 和 Jenkins</h2><p>作为一名开发，虽然也没有经常听到 <strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DevOps">Devops</a> （研发和运维一体化）这个概念</strong>，但日常工作中已经无处不在地用着 DevOps 工具。自研也好，基于开源项目改造也好，互联网公司基本都会有自已的一套 DevOps 工具</p>
+<p>所谓 DevOps 这个概念，不过是在我们日常开发流程上抽象一层，把<strong>开发、测试、运维</strong>等角色，日常的手动操作，都<strong>抽象成特定的语言/模板表述</strong>。有了这一层抽象之后，任务的<strong>自动化</strong>就有基础了。自动化之后 各个角色也能够从杂事中解放出来，分担其他角色的事情，或是更专注于领域深层的技术</p>
+<p>一个完全没有实现自动化的研发体系，会是什么样的呢？想象一下：开发需要三头六臂，一边忙着开发需求，一边因为单元测试不够完善，不停地改着来自线上环境退回的 bug 单，甚至还要和运维 battle 服务部署的细节；测试一边要用 jmeter 给开发刚发布到测试环境的服务做压测，一边还要被测试组长批评: 这么基本的 bug 你怎么没有测出来？运维，那就更不用说了，这边数据库需要扩容，那边服务需要发布，根本没有停下休息的时候</p>
+<!--
+开发需要完成需求功能开发，进行编写代码、提交到仓库、保证。测试需要保证上线生产环境的服务完整
+
+想象一下如果整个开发流程 都需要手动，会是一个什么场景: **开发人员**准时准点（下划线）并跟**测试人员**通知说 需求已经开发完成，可以**测试**了，测试人员又回头跟你说，那你在测试环境**发布一下版本**，开发就说好，于是**在开发机器上**执行 mvn package 给**项目打好了包**，把文件传给测试，测试开始**在测试机上执行测试用例**，所有用例都通过之后，又**通知开发**: 好你这个服务可以发布了，于是开发又要把包发给**运维人员**，**运维在生产环境把服务包部署好**，最后由**用户验收需求**。好了，整个过程 大家都掉了不少头发
+-->
+
+<p>光是想象一下就已经头大了。如果不依靠成熟的工具 去分担一些琐事，不管是什么角色，都无法专注自己应该做的事</p>
+<p>于是我们要先说到 <strong><a target="_blank" rel="noopener" href="https://github.com/jenkinsci/jenkins">Jenkins</a></strong>: 一个开源的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/CI/CD">CI/CD</a> （持续集成、持续开发） 服务，对 DevOps 流程做了很好的抽象，上面说到的所有过程，在 Jenkins 中都变成了<strong>插件</strong>。不管你是开发 测试 还是运维，总能在<a target="_blank" rel="noopener" href="https://plugins.jenkins.io/">插件市场</a>中找到适合自己的，只需要按照既定的模板写好任务流程 ，就能自动化地执行任务了</p>
+<p><img src="/2023/04/04/github-action/11.png" alt="Jenkins 插件市场"></p>
+<p>举个例子，<a target="_blank" rel="noopener" href="https://plugins.jenkins.io/golang">Go</a> 这个插件，就可以帮你做好 golang 环境的初始化工作。你只需要把服务编译、打包指令写好就行，以后都可以用同一个模板<br>官方示例:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">  <span class="comment">// 选择任意执行机器</span></span><br><span class="line">  agent any</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 定义 golang 版本为 1.19，插件会自动帮我们在执行器中安装这个版本</span></span><br><span class="line">  tools &#123; go &#x27;1.19&#x27; &#125;</span><br><span class="line"></span><br><span class="line">  stages &#123;</span><br><span class="line">    stage(&#x27;Build&#x27;) &#123;</span><br><span class="line">      steps &#123;</span><br><span class="line">        <span class="comment">// 打印 golang 版本</span></span><br><span class="line">        sh &#x27;go version&#x27;</span><br><span class="line">        <span class="comment">// 编译产生可执行文件</span></span><br><span class="line">        sh &#x27;go build -o main ./main.go&#x27;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不过正是因为Jenkins对流程的抽象程度很高，上手难度也并不低。它的<strong>任务定义语法、插件系统、容器化部署、集群部署</strong> ，每一块都可以深度展开。本文的重点并不是要深入介绍 Jenkins，也不是把目光放到公司级别: 几千上万人使用的DevOps工具是什么样子的，而是<strong>专注于我们自己</strong>，在自己项目的日常开发中，是否也能用上这样能给我们带来便利的工具呢？</p>
+<p>笔者遇到的场景是，自己开发了一个服务镜像仓库（包含各种服务的 Dockerfile），以及一个后台服务。镜像更新了什么功能，需要在本地重新构建镜像提交到 docker hub 仓库；后台项目实现了新功能，想跑跑单元测试 验证完整性，也需要在本地手动执行所有单测方法。虽然说熟能生巧，但总归是<strong>需要自己去“亲力亲为”的事</strong></p>
+<p>正好，今天的主角 <strong><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions">Github Action</a></strong>: 这样一个Github直接提供给我们的 自动化CI/CD 工具，就派上了用场。有了它，不管我的服务什么时候需要更新，我都只管把代码提交到 github，剩下的部署和测试过程，都交给 action 帮我执行就好，是真的 <strong>save my time</strong> 了</p>
+<h2 id="本文内容概览"><a href="#本文内容概览" class="headerlink" title="本文内容概览"></a>本文内容概览</h2><p>本文将从 github action 的使用方式入手，介绍它的基本语法，了解如何从零开始构建 action 任务。然后从笔者个人的实践出发，探讨 action 是否真的可以帮助我们提升开发效率<!--。最后扩展了解一下其他的公有云持续构建产品，看看网上其他人对这些产品的使用体验--></p>
+<h2 id="github-action"><a href="#github-action" class="headerlink" title="github action"></a>github action</h2><h3 id="创建-action-任务"><a href="#创建-action-任务" class="headerlink" title="创建 action 任务"></a>创建 action 任务</h3><p><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/quickstart">官方教程-Quickstart for GitHub Actions</a></p>
+<p>Github Action 任务和 Github 代码仓库之间是绑定关系，<strong>一个 action 任务的描述文件最终会挂载到项目的 .github/workflows 目录下</strong>。我们可以在Github 上创建一个项目，然后按照官方文档的 quickstart 示例来提交一个 action 任务，就能体验基本功能了</p>
+<p>这个任务不需要和仓库代码有任何关系，一个空项目都可以提交 action 任务</p>
+<p>示例任务: （触发条件为 push 代表任意提交都会触发执行）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">name: GitHub Actions Demo</span><br><span class="line">run-name: $&#123;&#123; github.actor &#125;&#125; is testing out GitHub Actions 🚀</span><br><span class="line">on: [push]</span><br><span class="line">jobs:</span><br><span class="line">  Explore-GitHub-Actions:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    steps:</span><br><span class="line">      # 打印一些 github action 自带的环境变量，如 github.event_name: 时间名称（push）、github.ref: 分支名（refs/heads/smiecj-patch-1）</span><br><span class="line">      - run: echo &quot;🎉 The job was automatically triggered by a $&#123;&#123; github.event_name &#125;&#125; event.&quot;</span><br><span class="line">      - run: echo &quot;🐧 This job is now running on a $&#123;&#123; runner.os &#125;&#125; server hosted by GitHub!&quot;</span><br><span class="line">      - run: echo &quot;🔎 The name of your branch is $&#123;&#123; github.ref &#125;&#125; and your repository is $&#123;&#123; github.repository &#125;&#125;.&quot;</span><br><span class="line">      - name: Check out repository code</span><br><span class="line">        uses: actions/checkout@v3</span><br><span class="line">      - run: echo &quot;💡 The $&#123;&#123; github.repository &#125;&#125; repository has been cloned to the runner.&quot;</span><br><span class="line">      - run: echo &quot;🖥️ The workflow is now ready to test your code on the runner.&quot;</span><br><span class="line">      - name: List files in the repository</span><br><span class="line">        run: |</span><br><span class="line">          ls $&#123;&#123; github.workspace &#125;&#125;</span><br><span class="line">      - run: echo &quot;🍏 This job&#x27;s status is $&#123;&#123; job.status &#125;&#125;.&quot;</span><br></pre></td></tr></table></figure>
+
+<p>提交任务过程: 首先在仓库的 Action 一栏 创建一个自定义任务</p>
+<p><img src="/2023/04/04/github-action/06.png" alt="创建 github action"></p>
+<p>然后会提示 是选择直接 commit 到主分支 还是创建一个单独分支 并创建 pr，这里建议选择后者</p>
+<p><img src="/2023/04/04/github-action/07.png" alt="提交 github action"></p>
+<p>pr创建完成后，将自动触发 action 任务的执行，如下图 显示任务执行中</p>
+<p><img src="/2023/04/04/github-action/08.png" alt="action 状态"></p>
+<p>action 执行的每一个步骤（step）都有非常详细的日志</p>
+<p><img src="/2023/04/04/github-action/10.png" alt="action 日志"></p>
+<p>如果我们需要把刚才创建的 action 流程保存下来，可以把这个 pr 合并。也可以直接在本地开发时手动创建 .github/workflows 目录，将流程定义保存成 yml 文件，提交到仓库后就能自动触发执行了</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#workflows">Workflow</a></td>
+<td>任务单位，一个 github action yaml 文件即对应一个任务，一个 workflow 下 可定义多个 job</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#events">Event</a></td>
+<td>触发 workflow 运行的事件，可以是一次 commit 提交，一次 pr 合并请求，到达设定的触发时间等</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#jobs">Job</a></td>
+<td>Workflow 内定义的具体执行的任务，同一个 Workflow 中的任务将会在同一个 Runner 中运行，因此可以设定依赖关系，上一个 Job 的产物可以在下一个 Job 使用。默认没有依赖关系的 Job 将会并行执行</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#actions">Action</a></td>
+<td>将 Workflow 开放为模板，可在 Market 中供别人使用</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#runners">Runner</a></td>
+<td>Workflow 执行环境，每个 Runner 同时只能运行一个 job。若有特殊需求，可以使用<a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners">更高性能的执行器</a>，或者使用<a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/hosting-your-own-runners">自己部署的执行器</a></td>
+</tr>
+</tbody></table>
+<h3 id="Market"><a href="#Market" class="headerlink" title="Market"></a>Market</h3><p><a target="_blank" rel="noopener" href="https://github.com/marketplace?type=actions">Github Action Market</a> 类似刚才提到的 Jenkins Market，有非常多现成的，可以直接复用的任务。分类包括: 服务发布（如将服务发布到 aws）、安全（CodeQL 扫描）、持续集成（编译）、自动化（提交issue后自动回复）、页面生成（Hugo），非常丰富</p>
+<p><img src="/2023/04/04/github-action/17.png" alt="choose a workflow from market"></p>
+<h3 id="Workflow-基本语法"><a href="#Workflow-基本语法" class="headerlink" title="Workflow 基本语法"></a>Workflow 基本语法</h3><p><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-workflows/about-workflows">About workflows</a></p>
+<h4 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h4><p>对应基本概念中的 Action，常见配置有:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 在提交到 main 分支时触发（PR 不会触发）</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches:</span><br><span class="line">    - main</span><br><span class="line">    - release/*</span><br><span class="line"></span><br><span class="line"># 提交 合并到 main 分支的 PR 时触发</span><br><span class="line">on:</span><br><span class="line">  pull_request:</span><br><span class="line">    branches:</span><br><span class="line">    - main</span><br><span class="line"></span><br><span class="line"># push / pr 且不论分支</span><br><span class="line">on:</span><br><span class="line">  [push, pull_request]</span><br><span class="line"></span><br><span class="line"># 定时触发</span><br><span class="line"># 注意: 触发时间为中时区 而不是当地时间 / crontab 表达式中最后一位的 day of the week 范围为 0-6</span><br><span class="line">on:</span><br><span class="line">  schedule:</span><br><span class="line">    - cron:  &#x27;30 5,17 * * *&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/actions/using-workflows/events-that-trigger-workflows">更多触发条件</a></p>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">on:</span><br><span class="line">  workflow_dispatch</span><br><span class="line"></span><br><span class="line">env:</span><br><span class="line">  DAY_OF_WEEK: Monday</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  greeting_job:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    env:</span><br><span class="line">      Greeting: Hello</span><br><span class="line">    steps:</span><br><span class="line">      - name: &quot;Say Hello Mona it&#x27;s Monday&quot;</span><br><span class="line">        run: echo &quot;$Greeting $First_Name. Today is $DAY_OF_WEEK!&quot;</span><br><span class="line">        env:</span><br><span class="line">          First_Name: Mona</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/actions/learn-github-actions/variables#default-environment-variables">常见默认环境变量</a>，如 GITHUB_ACTOR 表示流程发起者</p>
+<h4 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h4><p>对应概念的 Runner 执行器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jobs:</span><br><span class="line">  my_job:</span><br><span class="line">    name: deploy to staging</span><br><span class="line">    runs-on: ubuntu-18.04</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources">可选 Runner 列表</a></p>
+<p>Linux 执行器的默认分配资源：2核7G 14G SSD – 基本够用了</p>
+<h4 id="初始化各语言环境"><a href="#初始化各语言环境" class="headerlink" title="初始化各语言环境"></a>初始化各语言环境</h4><p>在Market中搜索关键字 actions/setup-语言名，大部分语言都有官方插件 支持初始化语言环境。比如如我们需要编译一个 java + maven 工程，就可以使用 <a target="_blank" rel="noopener" href="https://github.com/actions/setup-java">actions/setup-java</a> 插件，它会帮我们装好 java、maven、gradle 和 sbt 等环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">name: Java CI</span><br><span class="line"></span><br><span class="line">on: [push]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  build:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line"></span><br><span class="line">    steps:</span><br><span class="line">      - uses: actions/checkout@v3</span><br><span class="line">      - name: Set up JDK 17</span><br><span class="line">        uses: actions/setup-java@v3</span><br><span class="line">        with:</span><br><span class="line">          java-version: &#x27;17&#x27; # 安装 Java 版本</span><br><span class="line">          distribution: &#x27;temurin&#x27; # 开源jdk 类型，可选 Zulu、Temurin 和 AdoptOpenJDK</span><br><span class="line">      - name: Build with Maven</span><br><span class="line">        # 通过 maven 编译项目</span><br><span class="line">        run: mvn --batch-mode --update-snapshots package</span><br></pre></td></tr></table></figure>
+
+<h4 id="产物"><a href="#产物" class="headerlink" title="产物"></a>产物</h4><p>有一些action任务的执行结果 我们是希望 github 先帮我们保管的，比如服务编译后用于发布服务的安装包，或是测试报告等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 上传</span><br><span class="line">jobs:</span><br><span class="line">  example-job:</span><br><span class="line">    name: Save output</span><br><span class="line">    steps:</span><br><span class="line">      - shell: bash</span><br><span class="line">        run: |</span><br><span class="line">          expr 1 + 1 &gt; output.log</span><br><span class="line">      - name: Upload output file</span><br><span class="line">        uses: actions/upload-artifact@v3</span><br><span class="line">        with:</span><br><span class="line">          name: output-log-file</span><br><span class="line">          path: output.log</span><br><span class="line"></span><br><span class="line"># 下载</span><br><span class="line">jobs:</span><br><span class="line">  example-job:</span><br><span class="line">    steps:</span><br><span class="line">      - name: Download a single artifact</span><br><span class="line">        uses: actions/download-artifact@v3</span><br><span class="line">        with:</span><br><span class="line">          name: output-log-file</span><br></pre></td></tr></table></figure>
+
+<p>Workflow 的更多语法，如 <a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows">构建过程缓存</a>、<a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-workflows/reusing-workflows">引用其他项目的 workflow</a> 可参考官方文档</p>
+<h3 id="限额"><a href="#限额" class="headerlink" title="限额"></a>限额</h3><p><a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration">Usage limits, billing, and administration</a></p>
+<p>既然是商用产品 免费使用的限额一定是有的，一部分限制如下:</p>
+<ul>
+<li>单次 Job 的执行时间: 6小时</li>
+<li>Workflow 的执行时间: 35天</li>
+<li>一小时内 请求 github api 次数: 1000次</li>
+<li>同时运行的 job 数量: 20个（可以升级账号扩容），超过的将会排队</li>
+</ul>
+<p>个人使用的话 同时运行 job 数 这个比较需要留意。不过避免超过限制的方式也简单: 不同任务的触发时间尽量错开，比如编译A服务设置在凌晨2点触发，编译B服务设置到凌晨3点</p>
+<h2 id="个人实践"><a href="#个人实践" class="headerlink" title="个人实践"></a>个人实践</h2><p>掌握了 Github Action 的基本语法后，就可以基于具体的项目来实践了。笔者进行了镜像自动构建、单测覆盖率统计 两种任务的部署</p>
+<h3 id="镜像构建"><a href="#镜像构建" class="headerlink" title="镜像构建"></a>镜像构建</h3><p>之前做了一些开发环境镜像 和 大数据服务镜像 写成了 Dockerfile，都是在本地手动触发构建和提交的。现在都可以让 github action 帮我自动构建，定期提交到镜像仓库了</p>
+<p><a target="_blank" rel="noopener" href="https://frederick-s.github.io/2021/12/26/build-and-push-docker-image-to-docker-hub-with-github-actions/">参考博客-使用 GitHub Actions 自动构建和推送 Docker 镜像到 Docker Hub</a></p>
+<h4 id="准备-dockerhub-开启二次登录-和-创建-token"><a href="#准备-dockerhub-开启二次登录-和-创建-token" class="headerlink" title="准备: dockerhub 开启二次登录 和 创建 token"></a>准备: dockerhub 开启二次登录 和 创建 token</h4><p>首先为了账号尽量安全，不要在 Github 上直接配置账号密码（权限过大），我们需要在 Docker Hub 给自己的账号创建Token</p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/docker-hub/access-tokens">参考-Create and manage access tokens</a></p>
+<p>登录 Docker hub -&gt; 右上角账号 -&gt; Account Settings -&gt; Security -&gt; New Access Token</p>
+<p><img src="/2023/04/04/github-action/01.png" alt="创建token"></p>
+<p>如上图，创建了一个 Github Action 专用 token ，因为需要提交/覆盖镜像 所以 Write 权限是需要的。当然这个权限还是比较大，我们还是需要注意保管好 不要泄露</p>
+<p>然后将这个 token 在 github 中配置，登录 github -&gt; 进入需要添加 action 任务的仓库 -&gt; Settings -&gt; Secrets and variables -&gt; Actions -&gt; New repository secret 。secret key 将作为任务的配置</p>
+<p><img src="/2023/04/04/github-action/02.png" alt="配置token"></p>
+<h4 id="准备-项目中提供-Dockerfile"><a href="#准备-项目中提供-Dockerfile" class="headerlink" title="准备: 项目中提供 Dockerfile"></a>准备: 项目中提供 Dockerfile</h4><p>既然需要支持 通过 action 自动构建镜像，在项目中提供 Dockerfile 自然也是必须的</p>
+<p>以 <a target="_blank" rel="noopener" href="https://github.com/apache/superset">superset</a> 为例，根路径下的 <a target="_blank" rel="noopener" href="https://github.com/apache/superset/blob/master/Dockerfile">Dockerfile</a>，action 文件中有发布镜像流程 <a target="_blank" rel="noopener" href="https://github.com/apache/superset/blob/master/.github/workflows/docker-release.yml">docker-release.yml</a> ，算是一个非常标准的参考项目了</p>
+<p>如何给自己的服务编写 Dockerfile，也可以以不同语言的开源项目 Dockerfile 作为参考，对 Dockerfile 语法有一个大致了解就行。标准过程都是 <strong>定义编译镜像 -&gt; 编译生成可执行文件 -&gt; 定义服务运行镜像 -&gt; 拷贝二进制文件 -&gt; 定义服务启动指令</strong></p>
+<h4 id="定义任务"><a href="#定义任务" class="headerlink" title="定义任务"></a>定义任务</h4><p>以笔者项目 <a target="_blank" rel="noopener" href="https://github.com/smiecj/docker-centos/blob/main/.github/workflows/build_dev_python.yml">docker-centos</a> 为例: 定期构建 python 开发环境镜像任务如下:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&quot;0 3 * * 0&quot;</span> <span class="comment"># 每周一3点（中时区）开始构建</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">docker:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">fetch-depth:</span> <span class="number">0</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">QEMU</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/setup-qemu-action@v1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Docker</span> <span class="string">Buildx</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/setup-buildx-action@v1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Login</span> <span class="string">to</span> <span class="string">DockerHub</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/login-action@v1</span> </span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKERHUB_USERNAME</span> <span class="string">&#125;&#125;</span> <span class="comment"># 对应前面配置的 docker hub 登录凭证</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKERHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build_dev_python</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">REPO=mzsmieli</span> <span class="string">cmd=push</span> <span class="string">platform=linux/amd64,linux/arm64</span> <span class="string">make</span> <span class="string">build_dev_python</span> <span class="comment"># 该指令将触发 docker buildx build ... --push 进行镜像的构建和提交</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4><p>action 任务的执行记录</p>
+<p><img src="/2023/04/04/github-action/13.png" alt="执行记录"></p>
+<p>镜像仓库中可以看到上次更新时间正好就是周一</p>
+<p><img src="/2023/04/04/github-action/12.png" alt="镜像仓库"></p>
+<h3 id="单元测试覆盖率统计"><a href="#单元测试覆盖率统计" class="headerlink" title="单元测试覆盖率统计"></a>单元测试覆盖率统计</h3><p>一个完善的后台项目除了业务逻辑代码，还会包含大量的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Unit_testing">单元测试</a>（即基本方法测试），用于正式上线前的自测。单元测试写得质量如何，其中一个重要评判标准就是<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Code_coverage">单测覆盖率</a>，即<strong>所有的单元测试所覆盖的业务代码行数 / 总业务代码行数 比例</strong>。覆盖率越高，说明单测越完整，实际上线时出现问题的概率也越低</p>
+<p>而这个单测覆盖率的统计过程 如果能交给 Github Action 帮我们做，<strong>每天输出覆盖率报告</strong>，自然也能省不少心</p>
+<h4 id="项目准备"><a href="#项目准备" class="headerlink" title="项目准备"></a>项目准备</h4><p>要统计单测覆盖率 当然我们要先给项目写好一部分单测。每种语言都会有自己的<strong>单测编写规范</strong> 和 <strong>单测框架库</strong>。框架库如何选择，可以在写单测之前了解一下 官方或者社区有没有比较流行好用的，选择一个自己用着更顺手的就行</p>
+<p>规范这块则尽量参考官方文档，如一些后台语言的单测规范:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pkg.go.dev/testing">go-testing</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.html">python-unittest</a></li>
+<li><a target="_blank" rel="noopener" href="https://junit.org/junit5/docs/current/user-guide">java-junit5</a></li>
+</ul>
+<h4 id="环境准备-创建-mysql-service"><a href="#环境准备-创建-mysql-service" class="headerlink" title="环境准备 - 创建 mysql service"></a>环境准备 - 创建 mysql service</h4><p><a target="_blank" rel="noopener" href="https://ovirium.com/blog/how-to-make-mysql-work-in-your-github-actions">参考-How to make MySQL work in your GitHub Actions</a></p>
+<p>由于单测执行环境一般是在自己电脑 或者公司的测试环境，和线上环境是网络隔离的，我们需要给一些无法实际执行的函数写好<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mock_object">mock</a> 。所谓mock，就是让我们编写的函数 在特定输入下 <strong>返回特定输出</strong>，比如我们的服务对接 一个客户系统，在本地环境无法连上客户的环境，就需要 mock 用户服务的接口，自己写接口输出，来<strong>模拟真实环境的情况</strong></p>
+<p>对于业务层代码来说，写好 mock 取决于业务数据的分类规模。但对于更底层的<strong>数据接口层</strong>，如 gorm，需要 mock 的场景就更多了。比如业务层需要考虑 用户传入参数为 a、b、c 的输出，分别对应 d、e、f，那么数据接口层就要考虑 a、b、c 的首次存入、重复存入、事务存入等情况，除了 d、e、f 还需要返回各种错误提示。写好完整的 mock 比业务层要复杂多了</p>
+<p>考虑到这点，数据库的交互部分我没有写 mock，而是直接通过 action 的 service 功能，启动一个 mysql 服务来完成项目中 需要依赖数据库的代码测试</p>
+<h4 id="定义任务-1"><a href="#定义任务-1" class="headerlink" title="定义任务"></a>定义任务</h4><p>最终任务定义:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">test:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">services:</span></span><br><span class="line">      <span class="attr">mysql:</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">mysql:5.7</span> <span class="comment"># 通过官方的 5.7 版本镜像来启动 mysql</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">root_password</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="number">3306</span><span class="string">:3306</span></span><br><span class="line">        <span class="attr">options:</span> <span class="string">--health-cmd=&quot;mysqladmin</span> <span class="string">ping&quot;</span> <span class="string">--health-interval=10s</span> <span class="string">--health-timeout=5s</span> <span class="string">--health-retries=3</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">fetch-depth:</span> <span class="number">0</span></span><br><span class="line">          <span class="attr">ref:</span> <span class="string">master</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">setup</span> <span class="string">goalng</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-go@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">go-version:</span> <span class="string">&#x27;&gt;=1.17.0&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">init</span> <span class="string">mysql</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          # 初始化单测需要用到的数据库表</span></span><br><span class="line"><span class="string">          mysql -h127.0.0.1 -P3306 -uroot -proot_password -e &quot;create database temp&quot;</span></span><br><span class="line"><span class="string">          mysql -h127.0.0.1 -P3306 -uroot -proot_password -Dtemp &lt; db/mysql/mysql_test.sql</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">test</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          # 执行项目下的所有单测用例，并生成测试报告</span></span><br><span class="line"><span class="string">          go test -covermode=count -coverprofile=coverprofile.cov -run=&quot;^Test&quot; -coverpkg=$(go list ./... | grep -v &quot;/test&quot; | tr &#x27;\n&#x27; &#x27;,&#x27;) ./...</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Collect</span> <span class="string">Test</span> <span class="string">Coverage</span> <span class="string">File</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/upload-artifact@v3</span>  <span class="comment"># 上传测试覆盖率报告，即上个指令生成的 coverprofile.cov</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">go_common_coverage</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">coverprofile.cov</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h4><p>执行记录和上传的文件:</p>
+<p><img src="/2023/04/04/github-action/14.png" alt="执行记录"></p>
+<h3 id="github-首页构建"><a href="#github-首页构建" class="headerlink" title="github 首页构建"></a>github 首页构建</h3><p>对个人开发者而言，github action 还可以用于 个人博客、应用app 的定期发布。github 首页就有点类似个人博客，可以按 markdown 语法编写内容，进行自我展示</p>
+<p>我的 github 首页:</p>
+<p><img src="/2023/04/04/github-action/15.png" alt="github首页"></p>
+<p>不过我还没有实现首页自动更新，这里以另一个github用户 <a target="_blank" rel="noopener" href="https://github.com/wuhan005/wuhan005">E99p1ant</a> 的 首页项目为例。他将首页的 markdown 文件内容写成了模板样式，通过 action 任务，定期读取模板 并生成最终展示的首页样式</p>
+<p>如图 他的项目的 README_template.md 文件只是模板，实际内容来自同一个仓库的 profile.yml</p>
+<p><img src="/2023/04/04/github-action/16.png" alt="模板文件"></p>
+<h4 id="任务定义"><a href="#任务定义" class="headerlink" title="任务定义"></a>任务定义</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Update</span> <span class="string">Profile</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Go</span> <span class="number">1.16</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-go@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">go-version:</span> <span class="number">1.16</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">&amp;</span> <span class="string">Run</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          # 执行主进程 将 模板文件 生成真正的首页效果</span></span><br><span class="line"><span class="string">          # 过程: 读取 README_template.md 作为模板，profile.yml 作为内容，替换 template 中的 &#123;&#123;PROJECTS&#125;&#125; 和 &#123;&#123;CVE&#125;&#125;，生成最终的 README.md</span></span><br><span class="line"><span class="string">          go build . &amp;&amp; ./main &amp;&amp; rm main</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Git</span> <span class="string">Commit</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          git add README.md</span></span><br><span class="line"><span class="string">          git commit -S -m &quot;Update README.md&quot; || true # 内容没有变化时 commit 会报错，所以需要忽略报错，否则最后一步不会执行</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Push</span> <span class="string">changes</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">ad-m/github-push-action@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他商用CI-CD工具"><a href="#其他商用CI-CD工具" class="headerlink" title="其他商用CI/CD工具"></a>其他商用CI/CD工具</h2><p>基本每个云厂商都会有 配套产品，如 <a target="_blank" rel="noopener" href="https://azure.microsoft.com/en-us/products/devops/pipelines">Azure Pipeline</a>, <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/codepipeline">AWS CodePipeline</a> 和 <a target="_blank" rel="noopener" href="https://circleci.com/">CircleCI</a> 等</p>
+<p>不过既然是商用 就代表具有一定的使用门槛，场景也受限，往往会和厂商的其他服务配套才能使用。如此一对比，就更凸显 Github Action 对我们个人开发者的易用性了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从自己的实际体验来看，即使用上了 Github Action 也不会带来很明显的感知。但它带来的方便依然是存在的。就好像你在公司所用的所有基础设施（机器、数据库、sso服务等）一样。只有去刻意注意 才会发现它们的存在: 原来它们背后也凝聚了一群开发者的智慧，帮我们省去了非常多的工作</p>
+<!--
+如果 Github Action 对你来说也会是这样的一个工具，能 save your time，那不妨就尝试用起来
+-->
+<p>最后再分享前段时间看到的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bOnW8gDJ-dXp4KbAjhDw9A">一段话</a>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">但是像区块链这些东西，你就扪心自问一下，区块链是不是所有公司都在用？没有用就让那些猪在天上再飞一会，指不定哪天风停了呢。但是，今天那些很强劲的风已经刮了十多年、二十年了，你为啥不去呢？</span><br></pre></td></tr></table></figure>
+
+<p>不敢说 今年大火的 chatgpt 能有多少人真正用得上，因为刚刚以产品的形态进入公众视野，还没有沉淀下来。但是诸如 Github Action 这种 DevOps 工具，已经发展很多年，使用方式也在很多大厂得到了实践，还是很值得了解和实践的</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2023/04/04/github-action/">http://smiecj.github.io/2023/04/04/github-action/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</a><a class="post-meta__tags" href="/tags/github/">github</a></div><div class="post_share"><div class="social-share" data-image="/img/blog_img/action.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/14/shell-tools/"><img class="prev-cover" src="/img/blog_img/shell.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">shell 常用工具指令</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/01/vaundy-byebyeme/"><img class="next-cover" src="/img/blog_img/byebyeme.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【翻译】Bye bye me 歌曲鉴赏</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>访问主页</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DevOps-%E5%92%8C-Jenkins"><span class="toc-number">1.</span> <span class="toc-text">DevOps 和 Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E5%86%85%E5%AE%B9%E6%A6%82%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">本文内容概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github-action"><span class="toc-number">3.</span> <span class="toc-text">github action</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-action-%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.</span> <span class="toc-text">创建 action 任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">3.2.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Market"><span class="toc-number">3.3.</span> <span class="toc-text">Market</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Workflow-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">3.4.</span> <span class="toc-text">Workflow 基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="toc-number">3.4.1.</span> <span class="toc-text">触发条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">3.4.2.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">3.4.3.</span> <span class="toc-text">运行环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%90%84%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="toc-number">3.4.4.</span> <span class="toc-text">初始化各语言环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A7%E7%89%A9"><span class="toc-number">3.4.5.</span> <span class="toc-text">产物</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E9%A2%9D"><span class="toc-number">3.5.</span> <span class="toc-text">限额</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E5%AE%9E%E8%B7%B5"><span class="toc-number">4.</span> <span class="toc-text">个人实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA"><span class="toc-number">4.1.</span> <span class="toc-text">镜像构建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87-dockerhub-%E5%BC%80%E5%90%AF%E4%BA%8C%E6%AC%A1%E7%99%BB%E5%BD%95-%E5%92%8C-%E5%88%9B%E5%BB%BA-token"><span class="toc-number">4.1.1.</span> <span class="toc-text">准备: dockerhub 开启二次登录 和 创建 token</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8F%90%E4%BE%9B-Dockerfile"><span class="toc-number">4.1.2.</span> <span class="toc-text">准备: 项目中提供 Dockerfile</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.1.3.</span> <span class="toc-text">定义任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-number">4.1.4.</span> <span class="toc-text">效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E7%BB%9F%E8%AE%A1"><span class="toc-number">4.2.</span> <span class="toc-text">单元测试覆盖率统计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87"><span class="toc-number">4.2.1.</span> <span class="toc-text">项目准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87-%E5%88%9B%E5%BB%BA-mysql-service"><span class="toc-number">4.2.2.</span> <span class="toc-text">环境准备 - 创建 mysql service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1-1"><span class="toc-number">4.2.3.</span> <span class="toc-text">定义任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%88%E6%9E%9C-1"><span class="toc-number">4.2.4.</span> <span class="toc-text">效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#github-%E9%A6%96%E9%A1%B5%E6%9E%84%E5%BB%BA"><span class="toc-number">4.3.</span> <span class="toc-text">github 首页构建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89"><span class="toc-number">4.3.1.</span> <span class="toc-text">任务定义</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%95%86%E7%94%A8CI-CD%E5%B7%A5%E5%85%B7"><span class="toc-number">5.</span> <span class="toc-text">其他商用CI&#x2F;CD工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探"><img src="/img/blog_img/emr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大数据任务调度和数据同步组件初探"/></a><div class="content"><a class="title" href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探">大数据任务调度和数据同步组件初探</a><time datetime="2023-04-29T16:00:00.000Z" title="发表于 2023-04-30 00:00:00">2023-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/14/shell-tools/" title="shell 常用工具指令"><img src="/img/blog_img/shell.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="shell 常用工具指令"/></a><div class="content"><a class="title" href="/2023/04/14/shell-tools/" title="shell 常用工具指令">shell 常用工具指令</a><time datetime="2023-04-13T16:00:00.000Z" title="发表于 2023-04-14 00:00:00">2023-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/04/github-action/" title="github action 基于个人项目实践"><img src="/img/blog_img/action.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="github action 基于个人项目实践"/></a><div class="content"><a class="title" href="/2023/04/04/github-action/" title="github action 基于个人项目实践">github action 基于个人项目实践</a><time datetime="2023-04-03T16:00:00.000Z" title="发表于 2023-04-04 00:00:00">2023-04-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/vaundy-byebyeme/" title="【翻译】Bye bye me 歌曲鉴赏"><img src="/img/blog_img/byebyeme.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【翻译】Bye bye me 歌曲鉴赏"/></a><div class="content"><a class="title" href="/2023/03/01/vaundy-byebyeme/" title="【翻译】Bye bye me 歌曲鉴赏">【翻译】Bye bye me 歌曲鉴赏</a><time datetime="2023-02-28T16:00:00.000Z" title="发表于 2023-03-01 00:00:00">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/30/life-202301/" title="那个男孩"><img src="/2023/01/30/life-202301/01.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="那个男孩"/></a><div class="content"><a class="title" href="/2023/01/30/life-202301/" title="那个男孩">那个男孩</a><time datetime="2023-01-29T16:00:00.000Z" title="发表于 2023-01-30 00:00:00">2023-01-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: 'c724809384c536b40ca9d11600d121b3',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
