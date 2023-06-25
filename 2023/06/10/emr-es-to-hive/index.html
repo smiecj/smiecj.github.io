@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ES数据同步到hive | Smiecj的小窝</title><meta name="keywords" content="大数据,emr,hive,azkaban"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一次用户数据的处理过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES数据同步到hive">
+<meta property="og:url" content="http://smiecj.github.io/2023/06/10/emr-es-to-hive/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="一次用户数据的处理过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smiecj.github.io/img/blog_img/es-to-hive.jpeg">
+<meta property="article:published_time" content="2023-06-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-10T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="emr">
+<meta property="article:tag" content="hive">
+<meta property="article:tag" content="azkaban">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smiecj.github.io/img/blog_img/es-to-hive.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2023/06/10/emr-es-to-hive/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ES数据同步到hive',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-11 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/blog_img/es-to-hive.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ES数据同步到hive</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-09T16:00:00.000Z" title="发表于 2023-06-10 00:00:00">2023-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-10T16:00:00.000Z" title="更新于 2023-06-11 00:00:00">2023-06-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ES数据同步到hive"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>来自用户的需求: 用户有一部分数据来自 elasticsearch ，我们已经支持了通过 presto 查询 es 数据。但是用户需要将 es 表 和 hive 表做关联查询，而 presto 是不能跨数据源进行 join 查询的。所以需要先把 es 数据导入到 hive 中</p>
+<p>用户对数据同步周期的要求并不高 一天1-2次就可以了，所以继续使用我们emr集群中已有的 azkaban 服务进行调度，把 es 数据同步到 hive 的过程写到 azkaban 中，实现了7张表的定期同步</p>
+<h2 id="hive-创建-es-外表"><a href="#hive-创建-es-外表" class="headerlink" title="hive 创建 es 外表"></a>hive 创建 es 外表</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/baichoufei90/article/details/104246011">参考教程-Elasticsearch-Hive</a></p>
+<h3 id="hive-引入-elasticsearch-hadoop-依赖包"><a href="#hive-引入-elasticsearch-hadoop-依赖包" class="headerlink" title="hive 引入 elasticsearch-hadoop 依赖包"></a>hive 引入 elasticsearch-hadoop 依赖包</h3><p>hive 默认不支持创建 es 外表，需要引入 <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-hadoop">elasticsearch-hadoop</a> 依赖包</p>
+<p>修改 hive.aux.jars.path 配置, 多个可以用逗号分隔，如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive.aux.jars.path=file:///usr/hdp/2.6.3.0-235/hive/auxlib/elasticsearch-hadoop-hive-8.8.0.jar</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建-hive-外表"><a href="#创建-hive-外表" class="headerlink" title="创建 hive 外表"></a>创建 hive 外表</h3><p>sql 示例:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> temp.es_external_table ( fieldNameA STRING, fieldNameB STRING ) STORED <span class="keyword">BY</span> <span class="string">&#x27;org.elasticsearch.hadoop.hive.EsStorageHandler&#x27;</span></span><br><span class="line">TBLPROPERTIES(</span><br><span class="line">    <span class="string">&#x27;es.resource&#x27;</span><span class="operator">=</span><span class="string">&#x27;es索引名&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;es.nodes&#x27;</span><span class="operator">=</span><span class="string">&#x27;es_host&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;es.port&#x27;</span><span class="operator">=</span><span class="string">&#x27;es_port&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;es.mapping.names&#x27;</span><span class="operator">=</span><span class="string">&#x27;fieldNameA:fieldNameA,fieldNameB:fieldNameB&#x27;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这里踩了一个坑: 由于 hive 创建表会忽略大小写，不管 sql 中定义的字段是什么样子，都会统一转成小写。所以导致es 中的驼峰名称字段 会映射失败，最后查出的数据都是 null</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40999403/article/details/103929305">类似的坑</a>-创建mongodb 外表时遇到的</p>
+<p>因此需要显式地通过 <strong>es.mapping.names</strong> 配置指定字段名称的关联关系，像示例那样</p>
+<h2 id="同步脚本"><a href="#同步脚本" class="headerlink" title="同步脚本"></a>同步脚本</h2><p>从 es 表到 hive 表，大致步骤为: 创建 hive 外表，关联 es 数据 =&gt; 创建 hive 内表 =&gt; 同步外表数据到内表</p>
+<p>过程写到脚本中如下: (create_hive_to_es_table.sh)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 获取指定索引的所有 es 表字段</span></span><br><span class="line">get_index_field_ret=`curl http://<span class="variable">$&#123;es_address&#125;</span>/<span class="variable">$&#123;index_name&#125;</span>?pretty=<span class="literal">true</span>`</span><br><span class="line">field_arr=`<span class="built_in">echo</span> <span class="variable">$&#123;get_index_field_ret&#125;</span> | jq -r <span class="string">&quot;.<span class="variable">$&#123;index_name&#125;</span>.mappings.properties | keys | join(\&quot; \&quot;)&quot;</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment">## 创建 hive 外表</span></span><br><span class="line">temp_table_name=<span class="string">&quot;temp.es_<span class="variable">$&#123;index_name&#125;</span>&quot;</span></span><br><span class="line">temp_rename_table_name=<span class="string">&quot;<span class="variable">$&#123;hive_db&#125;</span>.es_<span class="variable">$&#123;index_name&#125;</span>_bak&quot;</span></span><br><span class="line">actual_table_name=<span class="string">&quot;<span class="variable">$&#123;hive_db&#125;</span>.es_<span class="variable">$&#123;index_name&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">create_external_table_sql=<span class="string">&quot;CREATE EXTERNAL TABLE <span class="variable">$&#123;temp_table_name&#125;</span> (&quot;</span></span><br><span class="line"><span class="keyword">for</span> current_field <span class="keyword">in</span> <span class="variable">$&#123;field_arr[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    create_external_table_sql=<span class="string">&quot;<span class="variable">$&#123;create_external_table_sql&#125;</span> <span class="variable">$&#123;current_field&#125;</span> STRING,&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">create_external_table_sql=`<span class="built_in">echo</span> <span class="variable">$&#123;create_external_table_sql&#125;</span> | sed <span class="string">&#x27;s/,$//g&#x27;</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment">### 组装 es.mapping.names</span></span><br><span class="line">create_external_table_sql=<span class="string">&quot;<span class="variable">$&#123;create_external_table_sql&#125;</span>) STORED BY &#x27;org.elasticsearch.hadoop.hive.EsStorageHandler&#x27; TBLPROPERTIES(&#x27;es.resource&#x27;=&#x27;<span class="variable">$&#123;index_name&#125;</span>&#x27;,&#x27;es.nodes&#x27;=&#x27;<span class="variable">$&#123;es_host&#125;</span>&#x27;,&#x27;es.port&#x27;=&#x27;<span class="variable">$&#123;es_port&#125;</span>&#x27;,&#x27;es.mapping.names&#x27;=&#x27;&quot;</span></span><br><span class="line"><span class="keyword">for</span> current_field <span class="keyword">in</span> <span class="variable">$&#123;field_arr[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    create_external_table_sql=<span class="string">&quot;<span class="variable">$&#123;create_external_table_sql&#125;</span><span class="variable">$&#123;current_field&#125;</span>:<span class="variable">$&#123;current_field&#125;</span>,&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">create_external_table_sql=`<span class="built_in">echo</span> <span class="variable">$&#123;create_external_table_sql&#125;</span> | sed <span class="string">&#x27;s/,$//g&#x27;</span>`</span><br><span class="line"></span><br><span class="line">create_external_table_sql=<span class="string">&quot;<span class="variable">$&#123;create_external_table_sql&#125;</span>&#x27;)&quot;</span></span><br><span class="line">drop_external_table_sql=<span class="string">&quot;drop table if exists <span class="variable">$&#123;temp_table_name&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;create external sql: <span class="variable">$&#123;create_external_table_sql&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;drop_external_table_sql&#125;</span>&quot;</span></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;create_external_table_sql&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 创建 hive 临时内表</span></span><br><span class="line">create_temp_table_sql=<span class="string">&quot;CREATE TABLE <span class="variable">$&#123;temp_rename_table_name&#125;</span> AS SELECT * FROM <span class="variable">$&#123;temp_table_name&#125;</span>&quot;</span></span><br><span class="line">drop_temp_table_sql=<span class="string">&quot;drop table if exists <span class="variable">$&#123;temp_rename_table_name&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;create temp table sql: <span class="variable">$&#123;create_temp_table_sql&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;drop_temp_table_sql&#125;</span>&quot;</span></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;create_temp_table_sql&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 重命名表（用于快速重建用户直接用的表）</span></span><br><span class="line"></span><br><span class="line">create_actual_table_sql=<span class="string">&quot;ALTER TABLE <span class="variable">$&#123;temp_rename_table_name&#125;</span> RENAME TO <span class="variable">$&#123;actual_table_name&#125;</span>&quot;</span></span><br><span class="line">drop_actual_table_sql=<span class="string">&quot;drop table if exists <span class="variable">$&#123;actual_table_name&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;create actual table sql: <span class="variable">$&#123;create_actual_table_sql&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;drop_actual_table_sql&#125;</span>&quot;</span></span><br><span class="line">beeline -n <span class="variable">$&#123;hive_user&#125;</span> -u <span class="variable">$&#123;hive_server&#125;</span> -e <span class="string">&quot;<span class="variable">$&#123;create_actual_table_sql&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="azkaban-任务"><a href="#azkaban-任务" class="headerlink" title="azkaban 任务"></a>azkaban 任务</h2><h3 id="定义任务流程"><a href="#定义任务流程" class="headerlink" title="定义任务流程"></a>定义任务流程</h3><p>需要重建7张表，因此定义成 父任务 -&gt; 7个子任务</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># es_to_hive_parent.job</span></span><br><span class="line"><span class="attr">type</span>=command</span><br><span class="line"></span><br><span class="line"><span class="attr">command</span>=echo <span class="string">&quot;es to hive success!&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dependencies</span>=table1,table2,table3,table4,table5,table6,table7</span><br></pre></td></tr></table></figure>
+
+<p>因为前面具体外表的创建流程 已经写在脚本中了，所以子任务这里直接调用 create_hive_to_es_table.sh 就行</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># table1.job</span></span><br><span class="line"><span class="attr">type</span>=flow</span><br><span class="line"></span><br><span class="line"><span class="attr">job.name</span>=table1</span><br><span class="line"><span class="attr">flow.name</span>=ES_TO_HIVE</span><br><span class="line"></span><br><span class="line"><span class="attr">index.name</span>=es索引名</span><br><span class="line"><span class="attr">hive_db</span>=目标 hive 库名</span><br><span class="line"></span><br><span class="line"><span class="comment"># ES_TO_HIVE.job</span></span><br><span class="line"><span class="attr">type</span>=command</span><br><span class="line"></span><br><span class="line"><span class="attr">command</span>=sh create_hive_to_es_table.sh <span class="variable">$&#123;es.address&#125;</span> <span class="variable">$&#123;index.name&#125;</span> <span class="variable">$&#123;hive.server&#125;</span> <span class="variable">$&#123;hive.user&#125;</span> <span class="variable">$&#123;hive.db&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>基于目前的资料搜索 这种方案应该是 es数据同步到 hive 比较通用的。但是确实不适合大批量数据同步的场景，也不能直接同步增量数据</p>
+<p>想同步增量数据的话 应该需要从数据源头入手了，比如 es 数据是来自 kafka 的，那么需要通过类似 canal 的服务来同步增量数据，架构和这里说到的远远不同</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2023/06/10/emr-es-to-hive/">http://smiecj.github.io/2023/06/10/emr-es-to-hive/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="post-meta__tags" href="/tags/emr/">emr</a><a class="post-meta__tags" href="/tags/hive/">hive</a><a class="post-meta__tags" href="/tags/azkaban/">azkaban</a></div><div class="post_share"><div class="social-share" data-image="/img/blog_img/es-to-hive.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/07/vaundy-sekainohimitu/"><img class="next-cover" src="/img/blog_img/sekainohimitu.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【翻译】世界の秘密 歌曲鉴赏</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探"><img class="cover" src="/img/blog_img/emr.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-30</div><div class="title">大数据任务调度和数据同步组件初探</div></div></a></div><div><a href="/2022/08/13/dockerfile-compose-hdfs/" title="通过 Docker Compose 本地启动 hadoop 集群"><img class="cover" src="/img/blog_img/hadoop.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-13</div><div class="title">通过 Docker Compose 本地启动 hadoop 集群</div></div></a></div><div><a href="/2021/11/20/nebula-gateway-sigpipe/" title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-20</div><div class="title">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>访问主页</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hive-%E5%88%9B%E5%BB%BA-es-%E5%A4%96%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">hive 创建 es 外表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hive-%E5%BC%95%E5%85%A5-elasticsearch-hadoop-%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="toc-number">2.1.</span> <span class="toc-text">hive 引入 elasticsearch-hadoop 依赖包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-hive-%E5%A4%96%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text">创建 hive 外表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E8%84%9A%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">同步脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#azkaban-%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">azkaban 任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1%E6%B5%81%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">定义任务流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/10/emr-es-to-hive/" title="ES数据同步到hive"><img src="/img/blog_img/es-to-hive.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ES数据同步到hive"/></a><div class="content"><a class="title" href="/2023/06/10/emr-es-to-hive/" title="ES数据同步到hive">ES数据同步到hive</a><time datetime="2023-06-09T16:00:00.000Z" title="发表于 2023-06-10 00:00:00">2023-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/07/vaundy-sekainohimitu/" title="【翻译】世界の秘密 歌曲鉴赏"><img src="/img/blog_img/sekainohimitu.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【翻译】世界の秘密 歌曲鉴赏"/></a><div class="content"><a class="title" href="/2023/05/07/vaundy-sekainohimitu/" title="【翻译】世界の秘密 歌曲鉴赏">【翻译】世界の秘密 歌曲鉴赏</a><time datetime="2023-05-06T16:00:00.000Z" title="发表于 2023-05-07 00:00:00">2023-05-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探"><img src="/img/blog_img/emr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大数据任务调度和数据同步组件初探"/></a><div class="content"><a class="title" href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探">大数据任务调度和数据同步组件初探</a><time datetime="2023-04-29T16:00:00.000Z" title="发表于 2023-04-30 00:00:00">2023-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/14/shell-tools/" title="shell 常用工具指令"><img src="/img/blog_img/shell.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="shell 常用工具指令"/></a><div class="content"><a class="title" href="/2023/04/14/shell-tools/" title="shell 常用工具指令">shell 常用工具指令</a><time datetime="2023-04-13T16:00:00.000Z" title="发表于 2023-04-14 00:00:00">2023-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/04/github-action/" title="github action 基于个人项目实践"><img src="/img/blog_img/action.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="github action 基于个人项目实践"/></a><div class="content"><a class="title" href="/2023/04/04/github-action/" title="github action 基于个人项目实践">github action 基于个人项目实践</a><time datetime="2023-04-03T16:00:00.000Z" title="发表于 2023-04-04 00:00:00">2023-04-04</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: 'c1b20a3f88c57e71b5fbfd3b7c7a8715',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
