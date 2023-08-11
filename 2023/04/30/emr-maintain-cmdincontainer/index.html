@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>一次内存爆的问题处理 | Smiecj的小窝</title><meta name="keywords" content="大数据,emr"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="大数据集群维护的问题处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次内存爆的问题处理">
+<meta property="og:url" content="http://smiecj.github.io/2023/04/30/emr-maintain-cmdincontainer/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="大数据集群维护的问题处理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smiecj.github.io/img/blog_img/emr.png">
+<meta property="article:published_time" content="2023-04-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-29T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="emr">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smiecj.github.io/img/blog_img/emr.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2023/04/30/emr-maintain-cmdincontainer/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '一次内存爆的问题处理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-30 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/blog_img/emr.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">一次内存爆的问题处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-29T16:00:00.000Z" title="发表于 2023-04-30 00:00:00">2023-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-29T16:00:00.000Z" title="更新于 2023-04-30 00:00:00">2023-04-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="一次内存爆的问题处理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>又是到了周五下午，手忙脚乱的自己接到了以下几个需求</p>
+<p>这次虽然没有给线上环境带来太严重的后果，只是和前端相关的服务一段时间的不可用，但是给的教训也足够深刻了</p>
+<h3 id="当前-完善故障描述"><a href="#当前-完善故障描述" class="headerlink" title="当前: 完善故障描述"></a>当前: 完善故障描述</h3><h3 id="当前-总结到-tapd"><a href="#当前-总结到-tapd" class="headerlink" title="当前: 总结到 tapd"></a>当前: 总结到 tapd</h3><h2 id="背景-1"><a href="#背景-1" class="headerlink" title="背景"></a>背景</h2><p>数据从最原始的状态，可能是一个 excel，一个文本，或者是来自业务数据库的数据，格式各种各样，落地到<a target="_blank" rel="noopener" href="https://www.oracle.com/cn/database/what-is-a-data-warehouse/">数据仓库</a>、<a target="_blank" rel="noopener" href="https://www.sap.cn/products/technology-platform/hana/what-is-a-data-lake.html">数据湖</a>中，数据的同步过程 是必不可少的</p>
+<p><img src="/16.png" alt="数据同步"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liugp/p/17297756.html">图片来源</a></p>
+<p>传统的数据同步方式主要是基于定时任务的模式，通过任务调度服务，每天定时将原始数据提取（<strong>extract</strong>），进行清洗处理，比如过滤掉重复数据（<strong>transform</strong>），最后存入数仓（<strong>load</strong>），即 <a target="_blank" rel="noopener" href="https://www.ibm.com/cn-zh/topics/etl">ETL</a> 任务模式。这种模式对数据的实时性要求不高，常见的同步工具有 datax、sqoop</p>
+<p><img src="/17.png" alt="ETL"></p>
+<p>实时同步，则需要让同步任务一直处于运行状态，有新数据进来需要在<strong>秒级别内</strong>更新。这种情况下传统的调度模式就不能满足了，需要能时刻监测数据同步状态、管理和启停任务、甚至动态分配任务资源。一种常见的模式是 任务通过 <strong>spark / flink</strong> 等流式任务引擎去执行，然后在上层通过 k8s 或其他任务管理平台 进行调度</p>
+<p>本质上实时同步数据的模式和 ETL 是一样的，对数据依然有 抽取、清洗和写入的操作。只是<strong>时效性、任务管理复杂度、资源动态分配能力</strong>上，要求会更高</p>
+<p><img src="/18.png" alt="流批一体"></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/531318115">图片来源-DataFunTalk：阿里建设一站式实时数仓的经验分享</a></p>
+<p>搭建可以在公司内通用的 EMR 平台，除了满足数据同步的功能，还需要提供任务调度的功能，因为用户的任务各种各样，可能是自定义的 spark / flink 任务，python 脚本 对数据自行处理的任务 等等，所以需要提供能让用户自行上传任务、执行任务的平台</p>
+<p><img src="/19.png" alt="xxl-job"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gaoqiaoliangjie/p/15390703.html">图片来源-xxl-job工作原理解析</a></p>
+<p>不过相比数据同步 离线和实时同步架构相差较大，任务调度平台架构的发展则不离其宗，基本变化不大</p>
+<p>本文将会对业界主流的任务调度服务 和 数据同步服务 做一些介绍，大家可以参考，择优选择更适合自己业务需求的服务 进行尝试</p>
+<h2 id="任务调度组件"><a href="#任务调度组件" class="headerlink" title="任务调度组件"></a>任务调度组件</h2><p>这里列举三个主流的任务调度服务: <a target="_blank" rel="noopener" href="https://github.com/azkaban/azkaban">azkaban</a>、<a target="_blank" rel="noopener" href="https://github.com/apache/airflow">airflow</a> 和 <a target="_blank" rel="noopener" href="https://github.com/apache/dolphinscheduler">dolphinscheduler</a>。我们先分别看基于这三个组件 数仓的架构可能是什么样的，然后系统对比，最后大致看下使用页面</p>
+<h3 id="传统离线数仓-azkaban"><a href="#传统离线数仓-azkaban" class="headerlink" title="传统离线数仓: azkaban"></a>传统离线数仓: azkaban</h3><p><img src="/01.png" alt="离线数仓"></p>
+<p><a target="_blank" rel="noopener" href="https://winway.github.io/2022/05/24/bigdata-stack-dw">大数据开发之路-离线数仓</a></p>
+<h3 id="实时离线融合-airflow"><a href="#实时离线融合-airflow" class="headerlink" title="实时离线融合: airflow"></a>实时离线融合: airflow</h3><p><img src="/02.png" alt="airflow"></p>
+<p><a target="_blank" rel="noopener" href="https://kids-first.github.io/kf-airflow-dags/warehouse.html">Data Warehouse</a></p>
+<h3 id="实时离线融合-dolphinscheduler"><a href="#实时离线融合-dolphinscheduler" class="headerlink" title="实时离线融合: dolphinscheduler"></a>实时离线融合: dolphinscheduler</h3><p><img src="/03.png" alt="dolphinscheduler"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42138677/article/details/119685577">基于DolphinScheduler的使用浅谈数仓分层及模型设计</a></p>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1979180">大数据调度平台分类大对比(Oozie/Azkaban/AirFlow/XXL-Job/DolphinScheduler)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kyle0349/article/details/108947115">【大数据】【调度】Airflow 和 Azkaban的选型</a></p>
+<table>
+<thead>
+<tr>
+<th>特性\组件</th>
+<th>airflow</th>
+<th>dolphinscheduler</th>
+<th>azkaban</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>web界面</td>
+<td>有，功能比较多</td>
+<td>有，且支持中文</td>
+<td>有，比较简单</td>
+</tr>
+<tr>
+<td>工作流语法</td>
+<td>python代码内定义，可通过界面查看但不能编辑</td>
+<td>可视化编辑，对小白很友好，但不适合通过代码编排</td>
+<td>配置文件</td>
+</tr>
+<tr>
+<td>跨dag/project依赖</td>
+<td>支持，可通过 <a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/howto/operator/external_task_sensor.html">ExternalTaskSensor</a> 配置</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>易用程度</td>
+<td>安装和维护上手难度高，<a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html">组件</a>包括 WebServer、Scheduler、Worker</td>
+<td>安装维护上手难度高，<a target="_blank" rel="noopener" href="https://dolphinscheduler.apache.org/zh-cn/docs/3.1.5/about/glossary">组件</a>包括 master、api、alert、worker 等，不过界面支持中文，可视化编辑任务比较友好</td>
+<td>上手难度低，只有 webserver、executor 两个组件</td>
+</tr>
+<tr>
+<td>变量定义</td>
+<td>支持全局参数，和一些内置模板变量，如 </td>
+<td>不支持全局变量</td>
+<td>不支持全局变量</td>
+</tr>
+<tr>
+<td>调度中心HA</td>
+<td><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/scheduler.html#running-more-than-one-scheduler">支持</a> ，对 db 版本有要求（mysql &gt;= 8）</td>
+<td>支持</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/azkaban/azkaban/issues/952">不支持</a></td>
+</tr>
+<tr>
+<td>执行器HA</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>权限管控</td>
+<td>支持用户、任务级别配置</td>
+<td>用户角色支持管理员、普通用户两种，不支持项目层级配置</td>
+<td>支持用户、任务级别配置</td>
+</tr>
+<tr>
+<td>任务监控</td>
+<td>可通过定义 <a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/callbacks.html">on_failure_callback</a> 在任务结束后触发提醒，<a target="_blank" rel="noopener" href="https://feijin.github.io/2021/03/14/airflow-alert-example/">示例</a>，支持<a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/metrics.html">metrics</a></td>
+<td><a target="_blank" rel="noopener" href="https://dolphinscheduler.apache.org/zh-cn/docs/3.1.5/guide/alert/alert_plugin_user_guide">支持任务告警</a>，支持通过企业微信、飞书等方式发送</td>
+<td>可配置 job 的 failure.emails 让任务失败后发送邮件提醒</td>
+</tr>
+</tbody></table>
+<p>总结: ds 对各种 ETL 任务类型的界面化配置支持更好，airflow 更适合 python 基础较好的团队使用，编排任务代码化 笔者认为也是一种趋势。azkaban 较为传统，使用起来更简单，也更适合定义流程简单的 ETL 任务，但是相比前两个组件，更新不是特别活跃</p>
+<h3 id="airflow-架构和界面"><a href="#airflow-架构和界面" class="headerlink" title="airflow 架构和界面"></a>airflow 架构和界面</h3><p><img src="/04.png" alt="airflow"></p>
+<p><img src="/05.png" alt="airflow"></p>
+<p><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html">Architecture Overview</a></p>
+<h3 id="dolphinscheduler-界面"><a href="#dolphinscheduler-界面" class="headerlink" title="dolphinscheduler 界面"></a>dolphinscheduler 界面</h3><p><img src="/06.png" alt="dolphinscheduler"></p>
+<h3 id="azkaban-架构和界面"><a href="#azkaban-架构和界面" class="headerlink" title="azkaban 架构和界面"></a>azkaban 架构和界面</h3><p><img src="/07.png" alt="azkaban"></p>
+<p><img src="/08.png" alt="azkaban"></p>
+<p><a target="_blank" rel="noopener" href="https://www.hnbian.cn/posts/5d59c988.html">1. Azkaban 介绍</a></p>
+<h2 id="数据同步组件"><a href="#数据同步组件" class="headerlink" title="数据同步组件"></a>数据同步组件</h2><p>对数据同步而言，支持更多的数据源是更重要的，传统数据同步工具，如 <a target="_blank" rel="noopener" href="https://github.com/apache/sqoop">sqoop</a>、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX">datax</a> ，都是对基于hadoop的传统数仓、基于关系型数据库 支持更好，不过对更现代的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a>、甚至<a target="_blank" rel="noopener" href="https://www.oracle.com/cn/big-data/what-is-data-lakehouse">湖仓一体</a>的架构支持并不够好</p>
+<p>随着发展，功能更强大的同步组件 如 <a target="_blank" rel="noopener" href="https://github.com/apache/incubator-seatunnel">seatunnel</a>、<a target="_blank" rel="noopener" href="https://github.com/DTStack/chunjun">chunjun</a> 也逐渐占有了一席之地，在业务使用实际场景中可以优先选择它们</p>
+<h3 id="sqoop"><a href="#sqoop" class="headerlink" title="sqoop"></a>sqoop</h3><p><img src="/09.png" alt="sqoop"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mamamalululu00000000/article/details/100013482">Sqoop原理和架构</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/23ec3a386dc9">【知识】ETL大数据集成工具Sqoop、dataX、Kettle、Canal、StreamSets大比拼</a></p>
+<p>特点：</p>
+<ul>
+<li>离线全量同步，不支持增量导入</li>
+<li>仅支持关系型数据库，比如从 mysql 同步到 hive</li>
+<li>任务运行方式: mapreduce</li>
+</ul>
+<h3 id="datax"><a href="#datax" class="headerlink" title="datax"></a>datax</h3><p><img src="/10.png" alt="datax"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/introduction.md">阿里云开源离线同步工具DataX3.0介绍</a></p>
+<p><img src="/11.png" alt="datax"></p>
+<p><a target="_blank" rel="noopener" href="https://dengchuncui.github.io/2020/10/22/%E3%80%90%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E3%80%91DATAX%20%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">数据同步 DATAX 工作原理及源码解读</a></p>
+<p>特点：</p>
+<ul>
+<li>相比 sqoop 支持的数据源更丰富，支持非关系型数据库（如从 mysql 写到 hdfs、mongodb、es 等） </li>
+<li>表字段的映射，必须提前写成json配置</li>
+<li>同步任务在单节点运行（在执行 datax 的节点运行）</li>
+</ul>
+<h3 id="canal"><a href="#canal" class="headerlink" title="canal"></a>canal</h3><p><img src="/12.png" alt="canal"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoweixiong/p/11824423.html">Canal——原理架构及应用场景</a></p>
+<p>特点：</p>
+<ul>
+<li>只能同步增量数据（本质：模拟 mysql slave 进行数据同步）</li>
+<li>支持数据源: kafka、rocketmq、hbase、elasticsearch</li>
+<li>实时任务管理：需要单独部署管理服务，如 cloudin-datax、Canal Admin</li>
+</ul>
+<h3 id="datalink"><a href="#datalink" class="headerlink" title="datalink"></a>datalink</h3><p><img src="/13.png" alt="datalink"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ucarGroup/DataLink">git-ucarGroup/DataLink</a></p>
+<p>特点：</p>
+<ul>
+<li>支持增量数据同步任务的管理，基本任务启停、同步状态检查等</li>
+<li>对 canal 、datax 等同步工具进行了封装，支持数据源: mysql、hbase、elasticsearch、kafka、kudu</li>
+<li>神州租车开源，现在不再维护，不过基本功能比较完善</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkwOTIxNDQ3OA==&mid=2247533077&idx=1&sn=2034a6897883e149b350b39facc98f6a&source=41#wechat_redirect">神州优车数据交换平台的架构、建设与痛点难点详解</a></p>
+<h3 id="seatunnel"><a href="#seatunnel" class="headerlink" title="seatunnel"></a>seatunnel</h3><p><img src="/14.png" alt="seatunnel"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liugp/p/17297756.html">【大数据】什么是数据集成？（SeaTunnel 集成工具介绍）</a></p>
+<p>特点：</p>
+<ul>
+<li>通过spark / flink 方式同步数据，支持更多现代数据源（clickhouse、doris、iceberg 等）</li>
+<li>UI 还不是很完善</li>
+<li>笔者后续会更详细地体验这个工具，补充和更多实时同步组件的使用对比</li>
+</ul>
+<h3 id="airbyte"><a href="#airbyte" class="headerlink" title="airbyte"></a>airbyte</h3><p><img src="/15.png" alt="airbyte"></p>
+<p><a target="_blank" rel="noopener" href="https://docs.airbyte.com/understanding-airbyte/high-level-view">Architecture overview</a></p>
+<p>特点：</p>
+<ul>
+<li>完全云原生化的数据同步服务，一个同步任务对应一个容器</li>
+<li>适用ETL 场景（配置定时任务，最小周期<a target="_blank" rel="noopener" href="https://discuss.airbyte.io/t/does-airbyte-sync-near-real-time-or-streaming-syncs/354">5分钟</a>，并不是完全实时）</li>
+<li>上手难度高，学有余力可以尝试</li>
+</ul>
+<h2 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h2><p>对于任务调度平台来说，本质上都是 <strong>定时 + 触发任务 + 管理任务</strong> 的使用机制，基本架构都离不开 <strong>scheduler + task worker</strong>，相差不大</p>
+<p>但对于数据同步组件来说，现在有一种离线往实时迁移的趋势。所以 诸如 sqoop、datax 这种传统离线数据同步方式应该会逐渐淡出，相比较，seatunnel 、 airbyte 这种后起之秀 一定会越来越强大。不过，实时也意味着需要更灵活的资源分配方式，需要掌握更深的技术栈，对开发人员要求也会更高</p>
+<p>Anyway，所有大数据架构的底层都是存储。数据如果是存放在 hdfs + hive 这种传统数仓架构，对实时性要求不高，那么 sqoop + azkaban / airflow 模式就完全足够了。数据需要存放在 clickhouse / kudu 这种 OLAP 存储，业务需要获取实时数据进行分析，那么就需要 seatunnel 这种实时同步的服务。没有绝对的哪个更好，只有更合适</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2023/04/30/emr-maintain-cmdincontainer/">http://smiecj.github.io/2023/04/30/emr-maintain-cmdincontainer/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="post-meta__tags" href="/tags/emr/">emr</a></div><div class="post_share"><div class="social-share" data-image="/img/blog_img/emr.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/05/07/vaundy-sekainohimitu/"><img class="prev-cover" src="/img/blog_img/sekainohimitu.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【翻译】世界の秘密 歌曲鉴赏</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/30/emr-scheduler/"><img class="next-cover" src="/img/blog_img/emr.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">大数据任务调度和数据同步组件初探</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/10/emr-es-to-hive/" title="ES数据同步到hive"><img class="cover" src="/img/blog_img/es-to-hive.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-10</div><div class="title">ES数据同步到hive</div></div></a></div><div><a href="/2023/04/30/emr-scheduler/" title="大数据任务调度和数据同步组件初探"><img class="cover" src="/img/blog_img/emr.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-30</div><div class="title">大数据任务调度和数据同步组件初探</div></div></a></div><div><a href="/2022/08/13/dockerfile-compose-hdfs/" title="通过 Docker Compose 本地启动 hadoop 集群"><img class="cover" src="/img/blog_img/hadoop.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-13</div><div class="title">通过 Docker Compose 本地启动 hadoop 集群</div></div></a></div><div><a href="/2021/11/20/nebula-gateway-sigpipe/" title="通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/2048px-Crab_Nebula.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-20</div><div class="title">通过 Ambari 启动 Nebula Gateway 一段时间后会自动退出的问题解决</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>访问主页</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E5%89%8D-%E5%AE%8C%E5%96%84%E6%95%85%E9%9A%9C%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">当前: 完善故障描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E5%89%8D-%E6%80%BB%E7%BB%93%E5%88%B0-tapd"><span class="toc-number">1.2.</span> <span class="toc-text">当前: 总结到 tapd</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF-1"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">任务调度组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%A6%BB%E7%BA%BF%E6%95%B0%E4%BB%93-azkaban"><span class="toc-number">3.1.</span> <span class="toc-text">传统离线数仓: azkaban</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E7%A6%BB%E7%BA%BF%E8%9E%8D%E5%90%88-airflow"><span class="toc-number">3.2.</span> <span class="toc-text">实时离线融合: airflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E7%A6%BB%E7%BA%BF%E8%9E%8D%E5%90%88-dolphinscheduler"><span class="toc-number">3.3.</span> <span class="toc-text">实时离线融合: dolphinscheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-number">3.4.</span> <span class="toc-text">对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#airflow-%E6%9E%B6%E6%9E%84%E5%92%8C%E7%95%8C%E9%9D%A2"><span class="toc-number">3.5.</span> <span class="toc-text">airflow 架构和界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dolphinscheduler-%E7%95%8C%E9%9D%A2"><span class="toc-number">3.6.</span> <span class="toc-text">dolphinscheduler 界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#azkaban-%E6%9E%B6%E6%9E%84%E5%92%8C%E7%95%8C%E9%9D%A2"><span class="toc-number">3.7.</span> <span class="toc-text">azkaban 架构和界面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E7%BB%84%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">数据同步组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sqoop"><span class="toc-number">4.1.</span> <span class="toc-text">sqoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datax"><span class="toc-number">4.2.</span> <span class="toc-text">datax</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#canal"><span class="toc-number">4.3.</span> <span class="toc-text">canal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datalink"><span class="toc-number">4.4.</span> <span class="toc-text">datalink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#seatunnel"><span class="toc-number">4.5.</span> <span class="toc-text">seatunnel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#airbyte"><span class="toc-number">4.6.</span> <span class="toc-text">airbyte</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%95%E6%9C%9B"><span class="toc-number">5.</span> <span class="toc-text">展望</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/10/japan-travel-note-tokyo/" title="東京の日々"><img src="/2023/08/10/japan-travel-note-tokyo/kyoto-travel-note-front.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="東京の日々"/></a><div class="content"><a class="title" href="/2023/08/10/japan-travel-note-tokyo/" title="東京の日々">東京の日々</a><time datetime="2023-08-09T16:00:00.000Z" title="发表于 2023-08-10 00:00:00">2023-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/14/japan-travel-guide-tokyo/" title="东京景点"><img src="/2023/07/14/japan-travel-guide-tokyo/tokyo-scene-01.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="东京景点"/></a><div class="content"><a class="title" href="/2023/07/14/japan-travel-guide-tokyo/" title="东京景点">东京景点</a><time datetime="2023-07-13T16:00:00.000Z" title="发表于 2023-07-14 00:00:00">2023-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/10/emr-es-to-hive/" title="ES数据同步到hive"><img src="/img/blog_img/es-to-hive.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ES数据同步到hive"/></a><div class="content"><a class="title" href="/2023/06/10/emr-es-to-hive/" title="ES数据同步到hive">ES数据同步到hive</a><time datetime="2023-06-09T16:00:00.000Z" title="发表于 2023-06-10 00:00:00">2023-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/07/vaundy-sekainohimitu/" title="【翻译】世界の秘密 歌曲鉴赏"><img src="/img/blog_img/sekainohimitu.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【翻译】世界の秘密 歌曲鉴赏"/></a><div class="content"><a class="title" href="/2023/05/07/vaundy-sekainohimitu/" title="【翻译】世界の秘密 歌曲鉴赏">【翻译】世界の秘密 歌曲鉴赏</a><time datetime="2023-05-06T16:00:00.000Z" title="发表于 2023-05-07 00:00:00">2023-05-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/30/emr-maintain-cmdincontainer/" title="一次内存爆的问题处理"><img src="/img/blog_img/emr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一次内存爆的问题处理"/></a><div class="content"><a class="title" href="/2023/04/30/emr-maintain-cmdincontainer/" title="一次内存爆的问题处理">一次内存爆的问题处理</a><time datetime="2023-04-29T16:00:00.000Z" title="发表于 2023-04-30 00:00:00">2023-04-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: '5c8c07aacf98f1ac3b70c1a00f22f5d5',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
