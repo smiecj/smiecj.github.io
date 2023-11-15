@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>go 语言介绍 | Smiecj的小窝</title><meta name="keywords" content="golang"><meta name="author" content="smiecj,xxx@gmail.com"><meta name="copyright" content="smiecj"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于 go 的起源，特点以及学习建议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go 语言介绍">
+<meta property="og:url" content="http://smiecj.github.io/2023/10/23/golang-origin/index.html">
+<meta property="og:site_name" content="Smiecj的小窝">
+<meta property="og:description" content="关于 go 的起源，特点以及学习建议">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smiecj.github.io/2023/10/23/golang-origin/golang.png">
+<meta property="article:published_time" content="2023-10-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-11-01T16:00:00.000Z">
+<meta property="article:author" content="smiecj">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smiecj.github.io/2023/10/23/golang-origin/golang.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://smiecj.github.io/2023/10/23/golang-origin/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'go 语言介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-02 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Smiecj的小窝" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/2023/10/23/golang-origin/golang.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Smiecj的小窝</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">go 语言介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-22T16:00:00.000Z" title="发表于 2023-10-23 00:00:00">2023-10-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-01T16:00:00.000Z" title="更新于 2023-11-02 00:00:00">2023-11-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="go 语言介绍"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/134160923">本文 csdn</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>一直有在零散的时间用go写点代码，正好借着最近比较有时间写东西的契机，给这个看着年轻，实际也已经发展10几年，并在当下众多开发领域都有不可忽视作用的语言做个介绍吧</p>
+<h1 id="golang-的起点"><a href="#golang-的起点" class="headerlink" title="golang 的起点"></a>golang 的起点</h1><p>golang 的诞生可以说是时代造就了它，它也成就了研发工具、云原生和高性能服务开发百花齐放的时代</p>
+<p>本节主要参考文章:</p>
+<p><a target="_blank" rel="noopener" href="https://go.dev/talks/2012/splash.article">Go at Google: Language Design in the Service of Software Engineering</a><br><a target="_blank" rel="noopener" href="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering">翻译-Google 里的 Go 语言：服务于软件工程的语言设计</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/EDDYCJY/article/details/122551805">煎鱼-为什么要开发 Go 这门新语言？</a></p>
+<h2 id="开发痛点"><a href="#开发痛点" class="headerlink" title="开发痛点"></a>开发痛点</h2><ul>
+<li>当时谷歌使用的语言：C++、Java 和 Python ，已经不适用于计算层面的需求，对于多核处理、大规模计算 和 web应用编程层面，遇到的问题都只能绕过，而不是直接解决</li>
+</ul>
+<p>ced by multicore processors, networked systems, massive computation clusters, and the web programming model </p>
+<ul>
+<li><p>软件规模：千万行代码，数千程序员共同维护（言外之意就是效率太低了，语言和开发者两个层面）</p>
+</li>
+<li><p>编译时间太长，几分钟到几小时都有（特别讲了 C++ #include 在编译上的消耗: <a target="_blank" rel="noopener" href="https://go.dev/talks/2012/splash.article#TOC_5.">Dependencies in C and C++</a>）</p>
+</li>
+<li><p>依赖混乱，跨语言构建麻烦</p>
+</li>
+<li><p>难以编写自动化工具</p>
+</li>
+</ul>
+<p>译者注: 结合原文之后的内容来看，最主要的两类问题就是 大规模的 C++ 项目编译时间长，以及多种语言维护成本高的问题</p>
+<h2 id="发明者"><a href="#发明者" class="headerlink" title="发明者"></a>发明者</h2><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Robert_Griesemer">Robert Griesemer</a>: 参与过谷歌 V8 引擎的开发，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Sawzall_(programming_language)">Sawzall 语言</a>（谷歌内部用的日志分级打印库，之后被 go 的日志库替代）、JVM 和 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Strongtalk">strongtalk</a> 系统（用于类型检查，现在<a target="_blank" rel="noopener" href="https://blog.csdn.net/iteye_14991/article/details/81522227">不维护了</a>）</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rob_Pike">Rob Pike</a>：Unix 开发者之一，为 Unix 编写过终端，后续编写过 sam、acme 文本编辑器，再之后和 Ken Thompson 一起创造了 UTF-8</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ken_Thompson">Ken Thompson</a>: Unix 开发者之一，B语言（C语言的前身）的发明者，后面 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Dennis_Ritchie">Dennis Ritchie</a> 基于 B 语言又开发了 C语言。1983 年 Ken 和 Dennis 一同获得了<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9B%BE%E7%81%B5%E5%A5%96">图灵奖</a></p>
+<p>扩展: <a target="_blank" rel="noopener" href="https://polarisxu.studygolang.com/posts/talk/go-celebrity-rsc">Russ Cox</a>，你可以在 golang 的很多 issue 中看到他的身影，他也是go代码<a target="_blank" rel="noopener" href="https://github.com/golang/go/graphs/contributors">提交</a>次数最多的</p>
+<p><img src="/2023/10/23/golang-origin/golang-commits.png" alt="golang commits"></p>
+<p>推荐阅读: 图灵奖历届得主、<a target="_blank" rel="noopener" href="https://changelog.com/gotime/77">golang talk</a></p>
+<h2 id="吉祥物"><a href="#吉祥物" class="headerlink" title="吉祥物"></a>吉祥物</h2><p>名字: Gopher（囊地鼠）</p>
+<p>由 Rob Pike 的妻子 Renee French 创作，官网甚至还有<a target="_blank" rel="noopener" href="https://go.dev/doc/gopher/modelsheet.jpg">细节描述</a>呢</p>
+<p><img src="/2023/10/23/golang-origin/gopher02.jpeg" alt="gopher"></p>
+<p><img src="/2023/10/23/golang-origin/gopher03.jpeg" alt="gopher 特点"></p>
+<h2 id="go-是什么样的语言"><a href="#go-是什么样的语言" class="headerlink" title="go 是什么样的语言"></a>go 是什么样的语言</h2><p>为了解决前面说的问题，go 必须有下面的特点:</p>
+<ul>
+<li>高效率、可扩展、满足生产力需求</li>
+<li>必须有可扩展性，对于代码量多、依赖多、开发者多的大型项目 必须能很好运作</li>
+<li>自带 GC，并在对象内存申请、释放空间上进行优化，保证GC尽量不影响业务运行</li>
+<li>符合C的编程习惯，让程序员能丝滑切换（如: 静态类型对象）</li>
+<li>必须足够现代化，在多核处理、网络、web 应用开发上需要更加方便，也要支持更多新特性，如内置的并发编程方案</li>
+</ul>
+<h2 id="时间和版本"><a href="#时间和版本" class="headerlink" title="时间和版本"></a>时间和版本</h2><p><a target="_blank" rel="noopener" href="https://endoflife.date/go">golang 版本来源</a>: 从 1.10 到最新</p>
+<p><img src="/2023/10/23/golang-origin/golang-versions.png" alt="golang versions"></p>
+<h1 id="go-语言特点"><a href="#go-语言特点" class="headerlink" title="go 语言特点"></a>go 语言特点</h1><p>本节中，笔者将结合自己平时开发过程中使用到的 go 比较核心的特性进行基本介绍，这些也是 go 和其他编程语言最不同的地方，包括 基本语法、基本指令、函数、关键字、基本类型、打包方式等</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><ul>
+<li><strong>通过大括号划分代码块</strong>，保证大项目下依旧结构清晰</li>
+<li><strong>不需要分号</strong>，虽然加了也不会报错</li>
+<li><strong>不需要小括号</strong>，比如在 if a &lt; b 判断语句、for 循环中的判断，都不需要</li>
+<li><strong>未使用的 import / 局部变量将报错</strong>，保证编译不会引入多余的代码，提升编译效率</li>
+</ul>
+<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><ul>
+<li><strong>go build</strong>: 统一的打包语句</li>
+<li>编译后生成<strong>一个可执行文件</strong></li>
+</ul>
+<h2 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h2><ul>
+<li><strong>pprof</strong>: 自带性能指标库，可通过火焰图、命令行查看堆栈情况、堆大小、各协程调用耗时等</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
+<li>接口不需要显式说明继承，只要实现了接口的方法即算是继承</li>
+<li>接口可以通过 <strong>指针接收器（pointer receiver）</strong> 或 <strong>值接收器（value receiver）</strong>实现，分别适合 setter 和 getter 的实现，大对象的方法也适合用 指针接收器 避免频繁拷贝（参考: <a target="_blank" rel="noopener" href="https://go.dev/doc/faq#methods_on_values_or_pointers">什么时候适合用什么接收器？</a>）</li>
+<li>方法可以作为对象传递，可以作为 map 的 value、声明匿名方法、定义闭包（闭包常用于定义配置方法，如 <a target="_blank" rel="noopener" href="https://github.com/trpc-group/trpc-go/blob/v1.0.1/trpc.go#L68C53-L68C59">trpc 的 server.Opts</a> 及其具体实现方法）</li>
+<li><strong>不支持重载</strong>，用开发必须增加少量代码的代价换来了 代码可读性和编译性能（一些<a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/21659">讨论</a>）</li>
+<li><strong>建议使用组合（composition），而不是继承（inheritance）</strong>（对比: java 类在多次继承后，要找到只在基类实现的方法的源代码，需要跳很多次才能找到，相反，组合的结构就很清晰，只有一层）</li>
+</ul>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><ul>
+<li><strong>没有异常机制</strong>，通过 error + 函数返回值 直接返回报错，在外部及时处理错误（也促使开发者封装好会出现 error 的代码块，减少主函数的层级）</li>
+<li>通过 <strong>panic + recover</strong> 机制捕获协程中发生的严重错误（如空指针）</li>
+</ul>
+<h2 id="基本类型和关键字"><a href="#基本类型和关键字" class="headerlink" title="基本类型和关键字"></a>基本类型和关键字</h2><ul>
+<li><strong>切片（slice）和数组（array）</strong>: 切片包含数组、长度（len）和容量（cap）</li>
+<li><strong>map</strong>: 非协程安全的 map（slice 也是非协程安全的，go 设计上就是让 channel 成为唯一的协程间通信对象）</li>
+<li><strong>defer:</strong> 常用于释放资源、panic 处理</li>
+<li><strong>make</strong>: 申请切片、map 和 channel 的空间</li>
+<li><strong>init 方法</strong>: 被引用的时候，包内的所有 init 方法会自动执行。单个包内的 init 方法执行顺序按 文件名字段序 -&gt; 方法从上到下 的顺序执行，<a target="_blank" rel="noopener" href="https://go.dev/ref/spec#Package_initialization">参考</a></li>
+<li><strong>声明对象的方式</strong>: 通过 <strong>var</strong> 指定对象名称和类型，或直接 <strong>a := 1</strong>，编译器自动识别字段类型</li>
+<li><strong>const</strong>: 声明常量</li>
+<li><strong>iota</strong>: 枚举，只能是数值</li>
+<li><strong>空白标识符</strong>: 下划线(_)，可用于忽略返回值，迭代 slice 或者 map 时忽略 下标/key，以及 init import（只执行包的 init 方法，不需要显式调用包的资源，如: import _ “net/http/pprof”）</li>
+<li><strong>select case</strong>: 多个 Channel 同时读取方式</li>
+<li><strong>总共只有[25个关键字]</strong>(<a target="_blank" rel="noopener" href="https://articles.wesionary.team/know-about-25-keywords-in-go-eca109855d4d)%EF%BC%8C%E7%9B%B8%E6%AF%94">https://articles.wesionary.team/know-about-25-keywords-in-go-eca109855d4d)，相比</a>: C99 有 37 个，C++11 有 84 个</li>
+</ul>
+<h2 id="原生库和方法"><a href="#原生库和方法" class="headerlink" title="原生库和方法"></a>原生库和方法</h2><ul>
+<li><strong>time</strong>: 时间，方法有 time.Parse, time.Now, time.DateTime（常量 2006-01-02 15:04:05）等</li>
+<li><strong>io.ReadAll</strong>: 数据流</li>
+<li><strong>bytes.Buffer</strong>: 字符串缓冲</li>
+<li><strong>strings、maps、slices</strong>: 集合类型的工具方法，如 strings.ReplaceAll、maps.Clone、slices.Sort 等</li>
+<li><strong>regexp</strong>: 正则</li>
+<li><strong>net/http</strong>: http 核心库</li>
+<li><strong>sort</strong>: 1.19 之前的数组排序库</li>
+<li><strong>log/slog</strong>: 1.21 新增的日志库，支持等级和格式化打印</li>
+<li><strong>sync</strong>: 协程之间同步、状态共享的相关组件库。<strong>Mutex</strong>: 锁；<strong>Once</strong>: 只执行一次；<strong>WaitGroup</strong>: 等待n个协程执行；<strong>Pool</strong>: 协程间复用对象；<strong>Cond</strong>: 等待和唤醒</li>
+</ul>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><ul>
+<li><strong>reflect.TypeOf</strong>: 获取对象的具体<strong>类型</strong></li>
+<li><strong>reflect.Kind</strong>: 获取对象的<strong>类别</strong>（和类型的区别: 具体值或指针的类别为 interface / pointer，类型可以拿到具体的 struct或接口类型）</li>
+<li><strong>reflect.ValueOf</strong>: 获取对象的具体值</li>
+<li><strong>struct tag</strong>: 标注 struct 内属性的附加信息，一般用于 json序列化、yaml 内容解析、orm 字段映射等场景</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ul>
+<li><strong>协程（Routine）</strong>: 用户层的“线程”，通过 go func() 开启并发</li>
+<li><strong>管道（Channel）</strong>: 协程间的通信方式</li>
+<li><strong>上下文（Context）</strong>: 协程间传递数据、父协程控制子协程状态的媒介</li>
+</ul>
+<h2 id="运行时（Runtime）"><a href="#运行时（Runtime）" class="headerlink" title="运行时（Runtime）"></a>运行时（Runtime）</h2><ul>
+<li><strong>GPM</strong>: Go 进程的核心，协程（Goroutine）、处理器（Processor）、系统线程（Machine）</li>
+<li><strong>GC</strong>: 三色标记法、混合写屏障等</li>
+</ul>
+<h2 id="包管理"><a href="#包管理" class="headerlink" title="包管理"></a>包管理</h2><ul>
+<li><strong>从 git 路径引用依赖</strong>，没有“官方仓库”的说法，去中心化的设计</li>
+<li>以 git tag 或者 commit id 作为版本标识</li>
+<li>对象和方法是否对外可见，通过首字母大小写来标识，大写为开放，简单明了</li>
+</ul>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><strong>gofmt、goformat、staticcheck</strong>: 代码格式化</li>
+<li><strong>test、bench、fuzz</strong>: 普通测试、并发测试、混沌测试</li>
+<li><strong>doc</strong>: 文档，go 的文档可在源码中通过注释编写，并自动生成</li>
+</ul>
+<p>以上就是自己常接触的原生库了，可以从 <a target="_blank" rel="noopener" href="https://github.com/golang/go/tree/master/src">go源码的src目录</a> 更多的实现细节</p>
+<!--
+
+## Sync
+
+- Mutex
+- Once
+- WaitGroup
+- Pool
+- Cond
+
+## package & import
+
+- from git tag / latest
+- import git path（ repo decentralized, can be same name ）
+- name case indicate visiable
+- not allow circle import
+
+## tools
+
+- gofmt / goformat / staticcheck
+- test / bench / fuzz
+- doc
+- gopls
+
+-->
+
+<h1 id="自己写的和go有关的博客"><a href="#自己写的和go有关的博客" class="headerlink" title="自己写的和go有关的博客"></a>自己写的和go有关的博客</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/133747191">golang 编程规范查漏补缺</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/107568024">golang-使用 go test 输出单元测试覆盖率</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/111768852">golang-单元测试和mock框架的介绍和推荐</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/111461690">golang-使用 godoc 工具编写代码注释</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/113177952">golang-文章翻译-go高效编程</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliizi/article/details/118873747">golang-文章翻译-go常见的10种错误</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/H6QUS0CtW_qUBSdXTK8E_w">vscode 使用技巧（vscode+go插件的开发环境）</a></p>
+<h1 id="go-学习方法总结"><a href="#go-学习方法总结" class="headerlink" title="go 学习方法总结"></a>go 学习方法总结</h1><h2 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h2><p>Go 的官网其实是最好的学习资料，教程、博客、社区动态都有，绝对适合作为入门资料的第一位</p>
+<p>下面说明官网中右上角各个栏目的内容</p>
+<p><img src="/2023/10/23/golang-origin/go.dev.png" alt="go官网"></p>
+<h3 id="为什么使用-Go（Why-Go）"><a href="#为什么使用-Go（Why-Go）" class="headerlink" title="为什么使用 Go（Why Go）"></a>为什么使用 Go（Why Go）</h3><p>大体就是 Go 在一些通用领域的使用场景，以及在大厂的使用情况</p>
+<p>Case Studies: 大厂的使用场景，如 Google、CloudFare、Meta、Netflix 等</p>
+<p>Use Cases: 在云服务、网络通信、命令行工具、网页/客户端应用 和 运维和可持续开发（DevOps、SRE）领域的应用<br>每一个领域下都有比较流行的开源项目的推荐</p>
+<p>Security: 如何提升自己工程的安全性，如通过 <a target="_blank" rel="noopener" href="https://go.dev/doc/tutorial/govulncheck">govulncheck</a> 检查项目存在哪些已知漏洞</p>
+<h3 id="Learn"><a href="#Learn" class="headerlink" title="Learn"></a>Learn</h3><p>非常适合上手的 <a target="_blank" rel="noopener" href="https://go.dev/tour">go tour</a>，几乎覆盖了 go，可以说练习完所有示例就会写 go 代码了</p>
+<h3 id="Docs"><a href="#Docs" class="headerlink" title="Docs"></a>Docs</h3><p><a target="_blank" rel="noopener" href="https://go.dev/doc">所有官方文章</a>: 可以挑讲原理的文章看，如 Using and understanding Go 中的 <a target="_blank" rel="noopener" href="https://go.dev/doc/gc-guide">A Guide to the Go Garbage Collector</a> 以及 References 中的 <a target="_blank" rel="noopener" href="https://go.dev/ref/mem">The Go Memory Model</a></p>
+<p><a target="_blank" rel="noopener" href="https://go.dev/doc/effective_go">Effective Go</a>: 上手之后，进一步了解 go 编程风格的必读文章</p>
+<p><a target="_blank" rel="noopener" href="https://pkg.go.dev/std">std</a>: 标准库文档</p>
+<p><a target="_blank" rel="noopener" href="https://go.dev/doc/faq">faq</a>: 囊括了从其他语言迁到 go 语言的常见问题，也体现了 go 的设计思想</p>
+<h3 id="社区"><a href="#社区" class="headerlink" title="社区"></a>社区</h3><p><a target="_blank" rel="noopener" href="https://go.dev/blog">blog</a>: go 博客，社区新动态</p>
+<h2 id="开源项目和代码推荐"><a href="#开源项目和代码推荐" class="headerlink" title="开源项目和代码推荐"></a>开源项目和代码推荐</h2><h3 id="go"><a href="#go" class="headerlink" title="go"></a>go</h3><p>go 本身的源码就很好阅读，也和 go 本身语法比较简洁有关。如果你想了解 go 的基础库的原理，大可不用搜一堆博客，一点点地消化别人的总结，读go源码就是最好的学习go原理的方法<br>包括: sync, runtime, context, reflect，这些都是 go 的核心库</p>
+<h3 id="web-应用"><a href="#web-应用" class="headerlink" title="web 应用"></a>web 应用</h3><p>开发后台必须要掌握的就是 web 框架，当然不同公司对它的定制化也会不同，如果想从简单的入手，使用官方推荐的 gin 就行。想参考大厂实际用的，可参考国内开发者开源的 web 框架（功能比较全），如字节的 hertz、go-zero、goframe 等</p>
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>gorm: 数据库 orm 库<br>redis: redigo<br>kafka: sarama</p>
+<h3 id="云原生和监控"><a href="#云原生和监控" class="headerlink" title="云原生和监控"></a>云原生和监控</h3><p>如 Kubernetes、Istio、Prometheus、Grafana 等，也能接触到当下比较流行的项目</p>
+<h3 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h3><p>以往我们需要用工具进行文档格式转换、爬虫、文件批量下载等场景，可能会主要以 python 项目作参考，因为它语法简单，执行方便，你需要的只是一个 python 环境</p>
+<p>现在，拥有类似特性的 go 让我们多了一个选项，同样的需求，也可以看 go 社区有没有现成的方案。甚至 go 只需要编译好的可执行文件，更加方便</p>
+<p>具体用哪个工具因需求而异，可以参考<a target="_blank" rel="noopener" href="https://github.com/shockerli/go-awesome">别人的整理</a>，这里列几个可能比较常用的:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gohugoio/hugo">hugo</a>: 博客网站生成，类似 hexo</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gobuffalo/buffalo">buffalo</a>: 快速生成 web 项目</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/charmbracelet/vhs">vhs</a>: 终端录制</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Code-Hex/pget">pget</a>: 并发下载</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fsnotify/fsnotify">fsnotify</a>: 系统文件监听</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/iawia002/lux">lux</a>: 网站视频下载工具（不能下载需要登录才能下的超高画质）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/golang-migrate/migrate">migrate</a>: 跨不同类型数据库迁移</p>
+<h2 id="博客推荐"><a href="#博客推荐" class="headerlink" title="博客推荐"></a>博客推荐</h2><p>golang 在国内大厂实践还是比较多的，因此国内开发者写的博客也不会缺少。本着技术的学习方法来说，这里推荐两个博主 分别对应前沿动态，和深度剖析原理</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/EDDYCJY?type=blog">煎鱼</a>: go 语言开发者，对 go 社区动态、新版本特性的跟踪比较及时，类似的博主还有 <a target="_blank" rel="noopener" href="https://polarisxu.studygolang.com/">polarisxu</a></p>
+<p><a target="_blank" rel="noopener" href="https://draveness.me/golang">go语言设计与实现</a>: go 原理和设计思想，这个博客对技术的思考方式值得应用到所有技术的学习上: 从为什么这么设计的问题基础上，去理解技术实现细节</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:xxx@gmail.com">smiecj</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://smiecj.github.io/2023/10/23/golang-origin/">http://smiecj.github.io/2023/10/23/golang-origin/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://smiecj.github.io" target="_blank">Smiecj的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/golang/">golang</a></div><div class="post_share"><div class="social-share" data-image="/2023/10/23/golang-origin/golang.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/31/emr-mongo-to-hive/"><img class="prev-cover" src="/2023/10/31/emr-mongo-to-hive/mongo.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">mongodb数据同步到hive</div></div></a></div><div class="next-post pull-right"><a href="/2023/09/18/japan-travel-note-nara/"><img class="next-cover" src="/2023/09/18/japan-travel-note-nara/nara-travel-note-front.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">鹿横行注意！</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/07/18/golang-mistakes/" title="Golang 常见的10种错误"><img class="cover" src="/img/blog_img/golang-1200x675.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-18</div><div class="title">Golang 常见的10种错误</div></div></a></div><div><a href="/2023/09/11/golang-standard-company/" title="golang 编程规范查漏补缺"><img class="cover" src="/2023/09/11/golang-standard-company/golang.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-11</div><div class="title">golang 编程规范查漏补缺</div></div></a></div><div><a href="/2023/08/23/opensource-monthly-202308/" title="开源项目观察8月报"><img class="cover" src="/2023/08/23/opensource-monthly-202308/hue.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-23</div><div class="title">开源项目观察8月报</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/14009307" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">smiecj</div><div class="author-info__description">写写生活，做做笔记，聊聊日常</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/smiecj"><i class="fab fa-github"></i><span>访问主页</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#golang-%E7%9A%84%E8%B5%B7%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">golang 的起点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E7%97%9B%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">开发痛点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E6%98%8E%E8%80%85"><span class="toc-number">2.2.</span> <span class="toc-text">发明者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%89%E7%A5%A5%E7%89%A9"><span class="toc-number">2.3.</span> <span class="toc-text">吉祥物</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E8%AF%AD%E8%A8%80"><span class="toc-number">2.4.</span> <span class="toc-text">go 是什么样的语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E7%89%88%E6%9C%AC"><span class="toc-number">2.5.</span> <span class="toc-text">时间和版本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-%E8%AF%AD%E8%A8%80%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">go 语言特点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C"><span class="toc-number">3.2.</span> <span class="toc-text">执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#debug"><span class="toc-number">3.3.</span> <span class="toc-text">debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">3.4.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-number">3.5.</span> <span class="toc-text">错误处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.6.</span> <span class="toc-text">基本类型和关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F%E5%BA%93%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">3.7.</span> <span class="toc-text">原生库和方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">3.8.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91"><span class="toc-number">3.9.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%EF%BC%88Runtime%EF%BC%89"><span class="toc-number">3.10.</span> <span class="toc-text">运行时（Runtime）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85%E7%AE%A1%E7%90%86"><span class="toc-number">3.11.</span> <span class="toc-text">包管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">3.12.</span> <span class="toc-text">工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E5%86%99%E7%9A%84%E5%92%8Cgo%E6%9C%89%E5%85%B3%E7%9A%84%E5%8D%9A%E5%AE%A2"><span class="toc-number">4.</span> <span class="toc-text">自己写的和go有关的博客</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">go 学习方法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E7%BD%91"><span class="toc-number">5.1.</span> <span class="toc-text">官网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Go%EF%BC%88Why-Go%EF%BC%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">为什么使用 Go（Why Go）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learn"><span class="toc-number">5.1.2.</span> <span class="toc-text">Learn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docs"><span class="toc-number">5.1.3.</span> <span class="toc-text">Docs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BE%E5%8C%BA"><span class="toc-number">5.1.4.</span> <span class="toc-text">社区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E4%BB%A3%E7%A0%81%E6%8E%A8%E8%8D%90"><span class="toc-number">5.2.</span> <span class="toc-text">开源项目和代码推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#go"><span class="toc-number">5.2.1.</span> <span class="toc-text">go</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-%E5%BA%94%E7%94%A8"><span class="toc-number">5.2.2.</span> <span class="toc-text">web 应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">5.2.3.</span> <span class="toc-text">中间件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%91%E5%8E%9F%E7%94%9F%E5%92%8C%E7%9B%91%E6%8E%A7"><span class="toc-number">5.2.4.</span> <span class="toc-text">云原生和监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">5.2.5.</span> <span class="toc-text">命令行工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E6%8E%A8%E8%8D%90"><span class="toc-number">5.3.</span> <span class="toc-text">博客推荐</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/31/emr-mongo-to-hive/" title="mongodb数据同步到hive"><img src="/2023/10/31/emr-mongo-to-hive/mongo.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mongodb数据同步到hive"/></a><div class="content"><a class="title" href="/2023/10/31/emr-mongo-to-hive/" title="mongodb数据同步到hive">mongodb数据同步到hive</a><time datetime="2023-10-30T16:00:00.000Z" title="发表于 2023-10-31 00:00:00">2023-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/23/golang-origin/" title="go 语言介绍"><img src="/2023/10/23/golang-origin/golang.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go 语言介绍"/></a><div class="content"><a class="title" href="/2023/10/23/golang-origin/" title="go 语言介绍">go 语言介绍</a><time datetime="2023-10-22T16:00:00.000Z" title="发表于 2023-10-23 00:00:00">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/18/japan-travel-note-nara/" title="鹿横行注意！"><img src="/2023/09/18/japan-travel-note-nara/nara-travel-note-front.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="鹿横行注意！"/></a><div class="content"><a class="title" href="/2023/09/18/japan-travel-note-nara/" title="鹿横行注意！">鹿横行注意！</a><time datetime="2023-09-17T16:00:00.000Z" title="发表于 2023-09-18 00:00:00">2023-09-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/18/japan-travel-note-oosaka/" title="大阪之烟火气"><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-travel-note-front.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大阪之烟火气"/></a><div class="content"><a class="title" href="/2023/09/18/japan-travel-note-oosaka/" title="大阪之烟火气">大阪之烟火气</a><time datetime="2023-09-17T16:00:00.000Z" title="发表于 2023-09-18 00:00:00">2023-09-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/18/japan-travel-note-kyoto/" title="暮色与京都"><img src="/2023/09/18/japan-travel-note-kyoto/kyoto-travel-note-front.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="暮色与京都"/></a><div class="content"><a class="title" href="/2023/09/18/japan-travel-note-kyoto/" title="暮色与京都">暮色与京都</a><time datetime="2023-09-17T16:00:00.000Z" title="发表于 2023-09-18 00:00:00">2023-09-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By smiecj</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '40d352b09238233a6c88',
+      clientSecret: 'db953d71dbaf0d65873a7ace2e60635fd475285a',
+      repo: 'smiecj.github.io',
+      owner: 'smiecj',
+      admin: ['smiecj'],
+      id: '22b9b91170c2ec60cc30c329b9cfc138',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
