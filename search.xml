@@ -4,35 +4,6 @@
   
     
     <entry>
-      <title>Cloudflare Zero Trust 配置内网穿透</title>
-      <link href="/2024/10/06/cloudflare-zero-trust/"/>
-      <url>/2024/10/06/cloudflare-zero-trust/</url>
-      
-        <content type="html"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/r1pOM7CoSMx4-L2GVqNoxg">公众号</a><br><a href="https://blog.csdn.net/xiaoliizi/article/details/125231965">csdn</a></p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了能在外面访问家里的服务器，我一直的方式都是在云服务商买一个规模不大的服务器作为中转，这种方式配置并不麻烦</p><p>最近有个同事说可以用 Cloudflare Zero Trust 直接白嫖，试了一下，虽然并不是白嫖，一年的服务器换成了域名的费用，但相比公网服务器还是要便宜很多了。而且现在我可以通过域名访问内网部署的服务，把一些服务分享给小伙伴也好很多，一方面你不用暴露你的公网ip，另外实际上公网服务器确实也可能一年换一个商家</p><p>当然，缺点还有一个就是 Cloudflare 提供的中转地址是国外，国内访问会有一定的延迟，实测下载速度还不到1M/s</p><h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><h2 id="后续体验"><a href="#后续体验" class="headerlink" title="后续体验"></a>后续体验</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://sspai.com/post/79278">CloudFlare Tunnel 免费内网穿透的简明教程</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 开发工具 </category>
-          
-          <category> 代理 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 开发工具 </tag>
-            
-            <tag> 代理 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>flink cdc 3.0 &quot;尝鲜&quot;</title>
       <link href="/2024/06/19/flink-cdc-3.0/"/>
       <url>/2024/06/19/flink-cdc-3.0/</url>
@@ -300,37 +271,6 @@
     
     
     <entry>
-      <title>大阪之烟火气</title>
-      <link href="/2023/09/18/japan-travel-note-oosaka/"/>
-      <url>/2023/09/18/japan-travel-note-oosaka/</url>
-      
-        <content type="html"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/M8P4swRyiDYdU2Fb8M6c3g">本文公众号地址</a></p><p>要说东京和大阪有什么区别，从旅游者的角度来说还真体验不太出来，都是一线城市，都有很繁华的地方和朴素的居民区，工作和生活每天都交织在一起</p><p>但大阪的生活，是那种真正和工作区分开的生活，称得上慢节奏，东京的生活感和这座城市紧密相关，而说到大阪则必定离不开大阪人</p><h3 id="心斋桥和道顿堀"><a href="#心斋桥和道顿堀" class="headerlink" title="心斋桥和道顿堀"></a>心斋桥和道顿堀</h3><p>从心斋桥开始，走过长长的一段街道，两边是各种店铺，有点像在京都那时逛的商业街，不过显然免税店和化妆品店更多点</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-02.JPG" alt="心斋桥"></p><p>到了格力高，很想拍一张不带人的照片，但实在是没办法 😂 看来台风刚过也不能阻挡大家来打卡的热情</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-01.JPG" alt="格力高"></p><p>在这里的一家小店点了点秋葵烤肉和薯条，都挺下酒的。不过最最下酒的还得是咸乌贼（日语：塩辛　しおから）这道菜。光看中文菜名根本感受不到它的威力。托它的福，让我把这一大杯酒喝完毫不费劲（其实吃完还是有点撑了）</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-03.JPG" alt="生啤喝得还是舒服"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-04.JPG" alt="左上角最佳下酒菜"></p><h3 id="大阪城"><a href="#大阪城" class="headerlink" title="大阪城"></a>大阪城</h3><p>天守阁象征了关西曾经是日本的中心，不过毕竟是翻修过的，历史感差点味</p><p>反倒是路边摊小哥的热情让我印象深刻，每想起 3 位小哥在我说买一杯刨冰之后，笑着说“一杯吗？真的只要一杯吗？No no no，three！”都忍不住放松地笑，大阪人的热情真的是名副其实</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-05.JPG" alt="大阪城"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-06.JPG" alt="天守阁远眺"></p><h3 id="大阪烧"><a href="#大阪烧" class="headerlink" title="大阪烧"></a>大阪烧</h3><p>说到热情，大阪烧同样有它的热情直爽，烤得干脆的面饼，软糯的年糕，虾肉和牛杂的共同点缀，成就了这样一道本地特色菜</p><p>不过我也注意到旁边的那对情侣，比我们进来得晚一点，但是点的菜和我们完全不同，一直在点小菜，有烤章鱼，烤玉米，炒面什么的。两人也一直有说有笑，边烤边吃，似乎正享受着他们专属的下班时光</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-07.JPG" alt="米酒越喝越有"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-08.JPG" alt="大阪烧"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 旅游 </category>
-          
-          <category> 日本 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 旅游 </tag>
-            
-            <tag> 日本 </tag>
-            
-            <tag> 日记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>鹿横行注意！</title>
       <link href="/2023/09/18/japan-travel-note-nara/"/>
       <url>/2023/09/18/japan-travel-note-nara/</url>
@@ -362,27 +302,29 @@
     
     
     <entry>
-      <title>hive 创建 s3 外表</title>
-      <link href="/2023/09/11/hive-s3/"/>
-      <url>/2023/09/11/hive-s3/</url>
+      <title>大阪之烟火气</title>
+      <link href="/2023/09/18/japan-travel-note-oosaka/"/>
+      <url>/2023/09/18/japan-travel-note-oosaka/</url>
       
-        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/xiaoliizi/article/details/132985118">本文csdn地址</a></p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有个比较大的技术侧需求: 将数据从 HDFS 迁移到 s3。当然在真正迁移之前，还需要验证迁移到 s3 的数据，和上层查询器（hive、presto 之间的兼容性）</p><p>这里我们对一张业务表的数据做个简单的迁移测试</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="数据迁移"><a href="#数据迁移" class="headerlink" title="数据迁移"></a>数据迁移</h3><p>为了让 hdfs 指令能直接操作 s3 的数据，参考 <a href="https://docs.cloudera.com/runtime/7.2.7/scaling-namespaces/topics/hdfs-distcp-with-amazon-s3.html">Using DistCp with Amazon S3</a><br>先在 hdfs-site 中添加配置 fs.s3a.access.key 、 fs.s3a.secret.key 、 fs.s3a.endpoint 和 fs.s3a.connection.ssl.enabled 四个配置</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.s3a.access.key=s3_key</span><br><span class="line">fs.s3a.secret.key=s3_secret</span><br><span class="line">fs.s3a.endpoint=s3服务端地址</span><br><span class="line">fs.s3a.connection.ssl.enabled=false（因为公司内部 s3 服务没开 ssl）</span><br></pre></td></tr></table></figure><p>重启 hdfs 使得配置生效后，通过 distcp 将 hdfs 数据搬到 s3</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop distcp hdfs://emr/data/db_name/table_name s3a://bucket_name/data/db_name/table_name</span><br></pre></td></tr></table></figure><p>如上，我们尽量保证了迁移后数据的路径和原路径保持一致</p><p>通过 s3cmd 确认数据是否搬过来了:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s3cmd ls s3://bucket_name/data/db_name/table_name/</span><br></pre></td></tr></table></figure><h3 id="查询验证"><a href="#查询验证" class="headerlink" title="查询验证"></a>查询验证</h3><p>新建 hive 外表并指向 s3 路径：<br>（注意：s3 路径一定要正确，否则建表和查询数据都不会报错，但查出的数据为空）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE `db_name`.`table_name`(</span><br><span class="line">  `id` bigint COMMENT &#x27;&#x27;,</span><br><span class="line">  ...)</span><br><span class="line">ROW FORMAT SERDE </span><br><span class="line">  &#x27;org.apache.hadoop.hive.serde2.avro.AvroSerDe&#x27; </span><br><span class="line">STORED AS INPUTFORMAT </span><br><span class="line">  &#x27;org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat&#x27; </span><br><span class="line">OUTPUTFORMAT </span><br><span class="line">  &#x27;org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat&#x27;</span><br><span class="line">LOCATION</span><br><span class="line">  &#x27;s3a://bucket_name/data/db_name/table_name&#x27;;</span><br></pre></td></tr></table></figure><h2 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h2><p>1、ranger 权限配置</p><p>在 ranger 上集成 hive 插件后，从 hive 权限首页能看到将包含 url、库表、hiveservice 和 udf 四项权限配置。需要在 ‘url’ 配置中添加用户权限</p><p>2、presto、trino 配置</p><p>访问 s3 数据需要额外加上以下配置：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.s3.aws-access-key=s3_key</span><br><span class="line">hive.s3.aws-secret-key=s3_secret</span><br><span class="line">hive.s3.endpoint=s3服务端地址</span><br><span class="line">hive.s3.ssl.enabled=false</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/M8P4swRyiDYdU2Fb8M6c3g">本文公众号地址</a></p><p>要说东京和大阪有什么区别，从旅游者的角度来说还真体验不太出来，都是一线城市，都有很繁华的地方和朴素的居民区，工作和生活每天都交织在一起</p><p>但大阪的生活，是那种真正和工作区分开的生活，称得上慢节奏，东京的生活感和这座城市紧密相关，而说到大阪则必定离不开大阪人</p><h3 id="心斋桥和道顿堀"><a href="#心斋桥和道顿堀" class="headerlink" title="心斋桥和道顿堀"></a>心斋桥和道顿堀</h3><p>从心斋桥开始，走过长长的一段街道，两边是各种店铺，有点像在京都那时逛的商业街，不过显然免税店和化妆品店更多点</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-02.JPG" alt="心斋桥"></p><p>到了格力高，很想拍一张不带人的照片，但实在是没办法 😂 看来台风刚过也不能阻挡大家来打卡的热情</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-01.JPG" alt="格力高"></p><p>在这里的一家小店点了点秋葵烤肉和薯条，都挺下酒的。不过最最下酒的还得是咸乌贼（日语：塩辛　しおから）这道菜。光看中文菜名根本感受不到它的威力。托它的福，让我把这一大杯酒喝完毫不费劲（其实吃完还是有点撑了）</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-03.JPG" alt="生啤喝得还是舒服"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-04.JPG" alt="左上角最佳下酒菜"></p><h3 id="大阪城"><a href="#大阪城" class="headerlink" title="大阪城"></a>大阪城</h3><p>天守阁象征了关西曾经是日本的中心，不过毕竟是翻修过的，历史感差点味</p><p>反倒是路边摊小哥的热情让我印象深刻，每想起 3 位小哥在我说买一杯刨冰之后，笑着说“一杯吗？真的只要一杯吗？No no no，three！”都忍不住放松地笑，大阪人的热情真的是名副其实</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-05.JPG" alt="大阪城"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-06.JPG" alt="天守阁远眺"></p><h3 id="大阪烧"><a href="#大阪烧" class="headerlink" title="大阪烧"></a>大阪烧</h3><p>说到热情，大阪烧同样有它的热情直爽，烤得干脆的面饼，软糯的年糕，虾肉和牛杂的共同点缀，成就了这样一道本地特色菜</p><p>不过我也注意到旁边的那对情侣，比我们进来得晚一点，但是点的菜和我们完全不同，一直在点小菜，有烤章鱼，烤玉米，炒面什么的。两人也一直有说有笑，边烤边吃，似乎正享受着他们专属的下班时光</p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-07.JPG" alt="米酒越喝越有"></p><p><img src="/2023/09/18/japan-travel-note-oosaka/oosaka-08.JPG" alt="大阪烧"></p>]]></content>
       
       
       <categories>
           
-          <category> 大数据 </category>
+          <category> 旅游 </category>
           
-          <category> hive </category>
+          <category> 日本 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> hadoop </tag>
+            <tag> 旅游 </tag>
             
-            <tag> s3 </tag>
+            <tag> 日本 </tag>
+            
+            <tag> 日记 </tag>
             
         </tags>
       
@@ -410,6 +352,35 @@
         <tags>
             
             <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>hive 创建 s3 外表</title>
+      <link href="/2023/09/11/hive-s3/"/>
+      <url>/2023/09/11/hive-s3/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/xiaoliizi/article/details/132985118">本文csdn地址</a></p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有个比较大的技术侧需求: 将数据从 HDFS 迁移到 s3。当然在真正迁移之前，还需要验证迁移到 s3 的数据，和上层查询器（hive、presto 之间的兼容性）</p><p>这里我们对一张业务表的数据做个简单的迁移测试</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="数据迁移"><a href="#数据迁移" class="headerlink" title="数据迁移"></a>数据迁移</h3><p>为了让 hdfs 指令能直接操作 s3 的数据，参考 <a href="https://docs.cloudera.com/runtime/7.2.7/scaling-namespaces/topics/hdfs-distcp-with-amazon-s3.html">Using DistCp with Amazon S3</a><br>先在 hdfs-site 中添加配置 fs.s3a.access.key 、 fs.s3a.secret.key 、 fs.s3a.endpoint 和 fs.s3a.connection.ssl.enabled 四个配置</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.s3a.access.key=s3_key</span><br><span class="line">fs.s3a.secret.key=s3_secret</span><br><span class="line">fs.s3a.endpoint=s3服务端地址</span><br><span class="line">fs.s3a.connection.ssl.enabled=false（因为公司内部 s3 服务没开 ssl）</span><br></pre></td></tr></table></figure><p>重启 hdfs 使得配置生效后，通过 distcp 将 hdfs 数据搬到 s3</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop distcp hdfs://emr/data/db_name/table_name s3a://bucket_name/data/db_name/table_name</span><br></pre></td></tr></table></figure><p>如上，我们尽量保证了迁移后数据的路径和原路径保持一致</p><p>通过 s3cmd 确认数据是否搬过来了:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s3cmd ls s3://bucket_name/data/db_name/table_name/</span><br></pre></td></tr></table></figure><h3 id="查询验证"><a href="#查询验证" class="headerlink" title="查询验证"></a>查询验证</h3><p>新建 hive 外表并指向 s3 路径：<br>（注意：s3 路径一定要正确，否则建表和查询数据都不会报错，但查出的数据为空）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE `db_name`.`table_name`(</span><br><span class="line">  `id` bigint COMMENT &#x27;&#x27;,</span><br><span class="line">  ...)</span><br><span class="line">ROW FORMAT SERDE </span><br><span class="line">  &#x27;org.apache.hadoop.hive.serde2.avro.AvroSerDe&#x27; </span><br><span class="line">STORED AS INPUTFORMAT </span><br><span class="line">  &#x27;org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat&#x27; </span><br><span class="line">OUTPUTFORMAT </span><br><span class="line">  &#x27;org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat&#x27;</span><br><span class="line">LOCATION</span><br><span class="line">  &#x27;s3a://bucket_name/data/db_name/table_name&#x27;;</span><br></pre></td></tr></table></figure><h2 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h2><p>1、ranger 权限配置</p><p>在 ranger 上集成 hive 插件后，从 hive 权限首页能看到将包含 url、库表、hiveservice 和 udf 四项权限配置。需要在 ‘url’ 配置中添加用户权限</p><p>2、presto、trino 配置</p><p>访问 s3 数据需要额外加上以下配置：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.s3.aws-access-key=s3_key</span><br><span class="line">hive.s3.aws-secret-key=s3_secret</span><br><span class="line">hive.s3.endpoint=s3服务端地址</span><br><span class="line">hive.s3.ssl.enabled=false</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 大数据 </category>
+          
+          <category> hive </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hadoop </tag>
+            
+            <tag> s3 </tag>
             
         </tags>
       
@@ -620,9 +591,9 @@
             
             <tag> azkaban </tag>
             
-            <tag> emr </tag>
-            
             <tag> hive </tag>
+            
+            <tag> emr </tag>
             
         </tags>
       
